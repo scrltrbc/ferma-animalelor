@@ -257,8 +257,8 @@ public:
         this->phase = phase;
     }
     void changePhase() {
-        if (phase == Phase::Morning) phase = Phase::Afternoon;
-        else if (phase == Phase::Afternoon) phase = Phase::Evening;
+        if (phase == Phase::Morning) set_phase(Phase::Afternoon);
+        else if (phase == Phase::Afternoon)set_phase(Phase::Evening);
         else
             changeDays();
     }
@@ -488,11 +488,11 @@ public:
     void display_stats(const Prune &prunebai) const{
         std::cout<<get_name()<<"'s stats:\n";
         std::cout<<"Guts: "<<stats.get_guts()<<"| Intelligence: "<<stats.get_intelligence()<<"| Charm"<<stats.get_charm()<<std::endl;
-        std::cout<<"Balance: "<<balance<<std::endl;
-        std::cout<<"Prune: "<<prune<<std::endl;
+        std::cout<<"Balance: "<<get_balance()<<std::endl;
+        std::cout<<"Prune: "<<get_prune()<<std::endl;
         std::cout<<"Prune Buiyng Price (Sunday Only): "<<prunebai.get_buying_price()<<std::endl;
         std::cout<<"Prune SellingPrice: "<<prunebai.get_selling_price()<<std::endl;
-        std::cout<<"Crop Slots: "<<crop_slots<<std::endl;
+        std::cout<<"Crop Slots: "<<get_crop_slots()<<std::endl;
         std::cout<<"Crops Used:"<<crops_used<<std::endl;
 
     }
@@ -581,6 +581,7 @@ int main() {
         else std::cout<<"Evening";
         std::cout<<" ---"<<std::endl;
         player.display_stats(bursaprunelor);
+        player.harvestAndSell();
         print_menu();
         int choice;
         std::cout<<"What do you want to do?\n";
@@ -651,7 +652,6 @@ int main() {
         }
     }
     std::cout<<"Bv, ai castigat, hai pa.\n";
-
     return 0;
 
 }
