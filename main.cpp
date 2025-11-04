@@ -5,6 +5,7 @@
 #include <climits>
 #include <vector>
 #include <algorithm>
+#include <random>
 
 class Stats {
     int guts;
@@ -12,36 +13,18 @@ class Stats {
     int charm;
 public:
     Stats() : guts(0), intelligence(0), charm(0) {}
-
-    [[nodiscard]] int get_guts() const {
-        return guts;
-    }
-
     ~Stats() = default;
 
-    void set_guts(int val) {
-        guts=std::min(100,guts+val);
-    }
+    [[nodiscard]] int get_guts() const { return guts; }
+    [[nodiscard]] int get_intelligence() const { return intelligence; }
+    [[nodiscard]] int get_charm() const { return charm; }
 
-    [[nodiscard]] int get_intelligence() const {
-        return intelligence;
-    }
+    void set_guts(int val) { guts = std::min(100, guts + val); }
+    void set_intelligence(int val) { intelligence = std::min(100, intelligence + val); }
+    void set_charm(int val) { charm = std::min(100, charm + val); }
 
-    void set_intelligence(int val) {
-        intelligence=std::min(100,intelligence+val);
-    }
-
-    [[nodiscard]] int get_charm() const {
-        return charm;
-    }
-
-    void set_charm(int val) {
-        charm=std::min(100,charm+val);
-    }
-    friend std::ostream& operator<<(std::ostream &os, const Stats &stats) {
-        os<<stats.guts<<std::endl;
-        os<<stats.intelligence<<std::endl;
-        os<<stats.charm<<std::endl;
+    friend std::ostream& operator<<(std::ostream& os, const Stats& stats) {
+        os << stats.guts << '\n' << stats.intelligence << '\n' << stats.charm << '\n';
         return os;
     }
 };
@@ -56,51 +39,37 @@ enum class effectType {
 class Item {
     std::string name;
     effectType effect;
-    public:
-    Item(std::string name, effectType effect):name(std::move(name)), effect(effect){}
+public:
+    Item(std::string name, effectType effect) : name(std::move(name)), effect(effect) {}
     ~Item() = default;
 
-    [[nodiscard]] std::string get_name() const {
-        return name;
-    }
+    [[nodiscard]] const std::string& get_name() const { return name; }
+    [[nodiscard]] effectType get_effect() const { return effect; }
 
-    [[nodiscard]] effectType get_effect() const {
-        return effect;
-    }
-    friend std::ostream& operator<<(std::ostream &os, const Item &item) {
-        os<<item.get_name()<<std::endl;
+    friend std::ostream& operator<<(std::ostream& os, const Item& item) {
+        os << item.get_name() << '\n';
         return os;
     }
 };
 
-class Prune{
+class Prune {
     int buyingPrice;
     int sellingPrice;
 public:
-    Prune()
-    {
-        buyingPrice=rand();
-        sellingPrice=0;
+    Prune() {
+        buyingPrice = rand();
+        sellingPrice = 0;
     }
-
     ~Prune() = default;
 
-    [[nodiscard]] int get_buying_price() const {
-        return buyingPrice;
-    }
-    void set_buying_price() {
-        buyingPrice=rand();
-    }
-    [[nodiscard]] int get_selling_price() const {
-        return sellingPrice;
-    }
+    [[nodiscard]] int get_buying_price() const { return buyingPrice; }
+    [[nodiscard]] int get_selling_price() const { return sellingPrice; }
 
-    void set_selling_price() {
-        sellingPrice=rand();
-    }
-    friend std::ostream& operator<<(std::ostream &os, const Prune &prune) {
-        os<<prune.buyingPrice<<std::endl;
-        os<<prune.sellingPrice<<std::endl;
+    void set_buying_price() { buyingPrice = rand(); }
+    void set_selling_price() { sellingPrice = rand(); }
+
+    friend std::ostream& operator<<(std::ostream& os, const Prune& prune) {
+        os << prune.buyingPrice << '\n' << prune.sellingPrice << '\n';
         return os;
     }
 };
@@ -108,78 +77,49 @@ public:
 class Seed {
     std::string name;
     int seedCost;
-
 public:
-    Seed(std::string name, int seed_cost)
-        : name(std::move(name)),
-          seedCost(seed_cost){
-    }
-
+    Seed(std::string name, int seed_cost) : name(std::move(name)), seedCost(seed_cost) {}
     ~Seed() = default;
 
-    [[nodiscard]] std::string get_name() const {
-        return name;
-    }
+    [[nodiscard]] const std::string& get_name() const { return name; }
+    [[nodiscard]] int get_seed_cost() const { return seedCost; }
 
-    [[nodiscard]] int get_seed_cost() const {
-        return seedCost;
-    }
-    friend std::ostream& operator<<(std::ostream &os, const Seed &seed) {
-        os<<seed.name<<std::endl;
-        os<<seed.seedCost;
+    friend std::ostream& operator<<(std::ostream& os, const Seed& seed) {
+        os << seed.name << '\n' << seed.seedCost;
         return os;
     }
 };
 
-class Plant : public Seed{
+class Plant : public Seed {
     int turnsSincePlanted;
     int sellingPrice;
 public:
-    Plant(const std::string &name, int seed_cost, int selling_price)
-        : Seed(std::move(name), seed_cost),
-          sellingPrice(selling_price),
-          turnsSincePlanted(0) {
-    }
+    Plant(const std::string& name, int seed_cost, int selling_price)
+        : Seed(name, seed_cost), turnsSincePlanted(0), sellingPrice(selling_price) {}
 
-    [[nodiscard]] int get_turns_since_planted() const {
-        return turnsSincePlanted;
-    }
-    void set_turns_since_planted() {
-        turnsSincePlanted++;
-    }
+    [[nodiscard]] int get_turns_since_planted() const { return turnsSincePlanted; }
+    [[nodiscard]] int get_selling_price() const { return sellingPrice; }
 
-    [[nodiscard]] int get_selling_price() const {
-        return sellingPrice;
-    }
+    void set_turns_since_planted() { ++turnsSincePlanted; }
+    void set_selling_price(int selling_price) { sellingPrice = selling_price; }
 
-    void set_selling_price(int selling_price) {
-        sellingPrice = selling_price;
-    }
-    friend std::ostream& operator<<(std::ostream &os, const Plant &plant) {
-        os<<plant.get_name()<<std::endl;
-        os<<plant.sellingPrice<<std::endl;
-        os<<plant.turnsSincePlanted<<std::endl;
+    friend std::ostream& operator<<(std::ostream& os, const Plant& plant) {
+        os << plant.get_name() << '\n' << plant.sellingPrice << '\n' << plant.turnsSincePlanted << '\n';
         return os;
     }
 };
 
 class NPC {
     std::string name;
-
 public:
-    explicit NPC(std::string name)
-        : name(std::move(name)){
-    }
-    virtual ~NPC()=default;
-    virtual void sayStuff() {
-        std::cout<<"Hello!"<<std::endl;
-    }
+    explicit NPC(std::string name) : name(std::move(name)) {}
+    virtual ~NPC() = default;
+    virtual void sayStuff() { std::cout << "Hello!\n"; }
 
-    [[nodiscard]] std::string get_name() const {
-        return name;
-    }
-    friend std::ostream& operator<<(std::ostream &os, const NPC &npc) {
-        os<<npc.name<<std::endl;
+    [[nodiscard]] const std::string& get_name() const { return name; }
+
+    friend std::ostream& operator<<(std::ostream& os, const NPC& npc) {
+        os << npc.name << '\n';
         return os;
     }
 };
@@ -188,81 +128,62 @@ class Animal : public NPC {
     Item item;
     std::string catchphrase;
 public:
-    Animal(const std::string &name,const Item &item,std::string catchphrase)
-        : NPC(name),
-          item(item),
-          catchphrase(std::move(catchphrase)){
-    }
+    Animal(const std::string& name, const Item& item, std::string catchphrase)
+        : NPC(name), item(item), catchphrase(std::move(catchphrase)) {}
 
-    void sayStuff() override {
-        std::cout<<get_name()<<": "<<catchphrase<<std::endl;
-    }
+    void sayStuff() override { std::cout << get_name() << ": " << catchphrase << '\n'; }
 
-    static bool giveItem() {
-        if (rand()%4==0)
-            return true;
-        return false;
-    }
+    static bool giveItem() { return rand() % 4 == 0; }
 
-    [[nodiscard]] Item get_item() const {
-        return item;
-    }
+    [[nodiscard]] const Item& get_item() const { return item; }
+    [[nodiscard]] const std::string& get_catchphrase() const { return catchphrase; }
 
-    [[nodiscard]] std::string get_catchphrase() const {
-        return catchphrase;
-    }
-    friend std::ostream& operator<<(std::ostream &os, const Animal &animal) {
-        os<<animal.get_name()<<std::endl;
-        os<<animal.get_catchphrase()<<std::endl;
-        os<<animal.get_item()<<std::endl;
+    friend std::ostream& operator<<(std::ostream& os, const Animal& animal) {
+        os << animal.get_name() << '\n' << animal.get_catchphrase() << '\n' << animal.get_item() << '\n';
         return os;
     }
 };
 
-enum class Phase {
-    Morning,
-    Afternoon,
-    Evening
-};
-std::vector<std::string> days {"Monday","Tuesday","Wednesday","Thursday","Friday", "Saturday","Sunday"};
+enum class Phase { Morning, Afternoon, Evening };
+
+std::vector<std::string> days{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+
 class GameEngine {
-    static GameEngine *instance;
+    static GameEngine* instance;
     int crtDay;
     Phase phase;
-    GameEngine(int crtDay, Phase phase)
-    : crtDay(crtDay), phase(phase) {}
+
+    GameEngine(int crtDay, Phase phase) : crtDay(crtDay), phase(phase) {}
     void changeDays() {
         ++crtDay;
-        phase=Phase::Morning;
+        phase = Phase::Morning;
     }
 
 public:
     static GameEngine* getInstance() {
-        if (instance==nullptr) {
-            instance=new GameEngine(0, Phase::Morning);
+        if (instance == nullptr) {
+            instance = new GameEngine(0, Phase::Morning);
         }
         return instance;
     }
-    GameEngine(const GameEngine&)=delete;
-    GameEngine& operator=(const GameEngine&)=delete;
-    [[nodiscard]] int get_crt_day() const {
-        return crtDay;
-    }
+    GameEngine(const GameEngine&) = delete;
+    GameEngine& operator=(const GameEngine&) = delete;
 
-    [[nodiscard]] Phase get_phase() const {
-        return phase;
-    }
+    [[nodiscard]] int get_crt_day() const { return crtDay; }
+    [[nodiscard]] Phase get_phase() const { return phase; }
 
-    void set_phase(Phase phase) {
-        this->phase = phase;
-    }
+    void set_phase(Phase newPhase) { phase = newPhase; }
+
     void changePhase() {
-        if (phase == Phase::Morning) set_phase(Phase::Afternoon);
-        else if (phase == Phase::Afternoon)set_phase(Phase::Evening);
+        if (phase == Phase::Morning)
+            set_phase(Phase::Afternoon);
+        else if (phase == Phase::Afternoon)
+            set_phase(Phase::Evening);
         else
             changeDays();
     }
 };
+GameEngine* GameEngine::instance = nullptr;
 
 class Player {
     const std::string name;
@@ -275,296 +196,191 @@ class Player {
     std::vector<std::string> seeds;
     std::vector<Plant> plantedPlants;
 
-    bool hasPluckSword() {
-        for (const auto & item : items) {
-            if (item.get_effect()==effectType::multiplyGuts)
-                return true;
-        }
-        return false;
+    bool hasEffect(effectType eff) const {
+        return std::any_of(items.begin(), items.end(),
+                           [eff](const Item& i) { return i.get_effect() == eff; });
     }
-    bool hasGlasses() {
-        for (const auto & item : items) {
-            if (item.get_effect()==effectType::multiplyIntelligence)
-                return true;
-        }
-        return false;
-    }
-    bool hasPinkBow() {
-        for (const auto & item : items) {
-            if (item.get_effect()==effectType::multiplyCharm)
-                return true;
-        }
-        return false;
-    }
-    bool hasGreenMonster() {
-        for (const auto & item : items) {
-            if (item.get_effect()==effectType::plantsGrowthBoost)
-                return true;
-        }
-        return false;
-    }
-
 
 public:
-    explicit Player(std::string &name)
-        : name(std::move(name)),
-          balance(100),
-          crop_slots(5),
-          prune(0),
-          crops_used(0)
+    explicit Player(std::string name)
+        : name(std::move(name)), balance(100), crop_slots(5), prune(0), crops_used(0) {}
 
-    {}
-
-    [[nodiscard]] std::string get_name() const {
-        return name;
-    }
-
-    [[nodiscard]] int get_balance() const {
-        return balance;
-    }
-
+    [[nodiscard]] const std::string& get_name() const { return name; }
+    [[nodiscard]] int get_balance() const { return balance; }
     void set_balance(int val) {
-        if (balance>INT_MAX-val)
-            balance=INT_MAX;
-        else
-            balance+=val;
+        if (balance > INT_MAX - val) balance = INT_MAX;
+        else balance += val;
     }
-
-    [[nodiscard]] int get_crop_slots() const {
-        return crop_slots;
-    }
-
-    [[nodiscard]] int get_prune() const {
-        return prune;
-    }
-
-    [[nodiscard]] std::vector<Item> get_items() const {
-        return items;
-    }
-
-    [[nodiscard]] std::vector<std::string> get_seeds() const {
-        return seeds;
-    }
+    [[nodiscard]] int get_crop_slots() const { return crop_slots; }
+    [[nodiscard]] int get_prune() const { return prune; }
+    [[maybe_unused]] [[nodiscard]] const std::vector<Item>& get_items() const { return items; }
+    [[maybe_unused]] [[nodiscard]] const std::vector<std::string>& get_seeds() const { return seeds; }
 
     void playSwordsWithMaster() {
         int base = 2 + (rand() % 6);
-        int bonus = hasPluckSword() ? 2 : 0;
+        int bonus = hasEffect(effectType::multiplyGuts) ? 2 : 0;
         stats.set_guts(base + bonus);
         GameEngine::getInstance()->changePhase();
     }
     void goToLibrary() {
         int base = 2 + (rand() % 6);
-        int bonus = hasGlasses() ? 2 : 0;
+        int bonus = hasEffect(effectType::multiplyIntelligence) ? 2 : 0;
         stats.set_intelligence(base + bonus);
         GameEngine::getInstance()->changePhase();
     }
-
     void workAtTheCafe() {
         int base = 2 + (rand() % 6);
-        int bonus = hasPinkBow() ? 2 : 0;
+        int bonus = hasEffect(effectType::multiplyCharm) ? 2 : 0;
         stats.set_charm(base + bonus);
         GameEngine::getInstance()->changePhase();
     }
 
-    bool buySeeds(Seed const& seed, int howmany) {
-        if (howmany==0){
-            std::cout<<"Didn't buy any!\n";
+    bool buySeeds(const Seed& seed, int howmany) {
+        if (howmany <= 0) {
+            std::cout << "Didn't buy any!\n";
             return false;
         }
-
-        long long cost= howmany*seed.get_seed_cost();
-        if (cost>balance) {
-            std::cout<<"Not enough money :(";
+        auto cost = static_cast<long long>(howmany) * seed.get_seed_cost();
+        if (cost > balance) {
+            std::cout << "Not enough money :(\n";
             return false;
         }
-        for (int i=0; i<howmany; i++) {
-            seeds.push_back(seed.get_name());
-        }
-        balance=static_cast<int>(balance - cost);
+        for (int i = 0; i < howmany; ++i) seeds.push_back(seed.get_name());
+        balance -= static_cast<int>(cost);
         return true;
     }
 
-    bool plantSeed(Seed const& seed) {
-        if (crops_used>=crop_slots)
-            return false;
-        for (int i=0; i<seeds.size(); i++) {
-            if (seeds[i]==seed.get_name()) {
-                seeds.erase(seeds.begin()+i);
-                plantedPlants.emplace_back(Plant(seed.get_name(),seed.get_seed_cost(),seed.get_seed_cost()*2));
-                crops_used++;
+    bool plantSeed(const Seed& seed) {
+        if (crops_used >= crop_slots) return false;
+        for (size_t i = 0; i < seeds.size(); ++i) {
+            if (seeds[i] == seed.get_name()) {
+                seeds.erase(seeds.begin() + static_cast<long>(i));
+                plantedPlants.emplace_back(seed.get_name(), seed.get_seed_cost(), seed.get_seed_cost() * 2);
+                ++crops_used;
                 return true;
             }
         }
         return false;
-
-    }
-    int plantMultipleSeeds(Seed const& seed, int howmany) {
-        if (howmany==0) {
-            return 0;
-        }
-        int cntPlantedSeeds=0;
-        for (int i=0; i<howmany; i++) {
-            if (plantSeed(seed))
-                cntPlantedSeeds++;
-            else
-                break;
-        }
-        return cntPlantedSeeds;
     }
 
-    void growAllSeeds() {
-        for (auto& pp : plantedPlants)
-            pp.set_turns_since_planted();
+    int plantMultipleSeeds(const Seed& seed, int howmany) {
+        if (howmany <= 0) return 0;
+        int count = 0;
+        for (int i = 0; i < howmany && plantSeed(seed); ++i) ++count;
+        return count;
+    }
+
+    [[maybe_unused]] void growAllSeeds() {
+        for (auto& pp : plantedPlants) pp.set_turns_since_planted();
     }
 
     int harvestAndSell() {
-        int earnings=0;
-        auto p=plantedPlants.begin();
-        while (p!=plantedPlants.end()) {
-            if (hasGreenMonster()) {
-                if (p->get_turns_since_planted()>=3) {
-                    earnings+=p->get_selling_price();
-                    p=plantedPlants.erase(p);
-                }
-                else {++p;}
-            }
-            else
-                if (p->get_turns_since_planted()>=6) {
-                    earnings+=p->get_selling_price();
-                    p=plantedPlants.erase(p);
-                }
-                else {++p;}
+        int earnings = 0;
+        auto p = plantedPlants.begin();
+        while (p != plantedPlants.end()) {
+            int needed = hasEffect(effectType::plantsGrowthBoost) ? 3 : 6;
+            if (p->get_turns_since_planted() >= needed) {
+                earnings += p->get_selling_price();
+                p = plantedPlants.erase(p);
+            } else ++p;
         }
         set_balance(earnings);
         return earnings;
     }
 
     bool buyCropSlot(int cost, int howmany) {
-        if (howmany==0) {
-            return false;
-        }
-        if (crop_slots>(100-howmany))
-            return false;
-        if (cost*howmany>balance) {
-            return false;
-        }
-        set_balance((-1)*cost*howmany);
-        crop_slots+=howmany;
+        if (howmany <= 0 || crop_slots > (100 - howmany) || cost * howmany > balance) return false;
+        set_balance(-cost * howmany);
+        crop_slots += howmany;
         return true;
     }
 
-    bool buyPrune(int howmany, const Prune &prunedecumparat) {
-        if (howmany==0) { return false; }
-        if (prunedecumparat.get_selling_price()*howmany>balance) {
-            return false;
-        }
-        balance-=prunedecumparat.get_selling_price()*howmany;
-        prune+=howmany;
+    bool buyPrune(int howmany, const Prune& p) {
+        if (howmany <= 0 || p.get_selling_price() * howmany > balance) return false;
+        balance -= p.get_selling_price() * howmany;
+        prune += howmany;
         return true;
     }
 
-    bool sellPrune(int howmany, const Prune &prunedevandut) {
-        if (howmany==0) { return false; }
-        if (howmany>prune) {
-            std::cout<<"You don't have that many prune :(";
+    bool sellPrune(int howmany, const Prune& p) {
+        if (howmany <= 0 || howmany > prune) {
+            std::cout << "You don't have that many prune :(\n";
             return false;
         }
-        set_balance((howmany)*(prunedevandut.get_selling_price()));
-        prune-=howmany;
+        set_balance(howmany * p.get_selling_price());
+        prune -= howmany;
         return true;
     }
 
-    void obtainItem(const Item &item) {
-        items.push_back(item);
-    }
+    void obtainItem(const Item& i) { items.push_back(i); }
+
     [[nodiscard]] bool checkVictory() const {
-        if (stats.get_intelligence() >= 100) return true;
-        if (stats.get_guts() >= 100) return true;
-        if (stats.get_charm() >= 100) return true;
-        if (get_balance() >= INT_MAX) return true;
-        return false;
+        return stats.get_intelligence() >= 100 || stats.get_guts() >= 100 ||
+               stats.get_charm() >= 100 || get_balance() >= INT_MAX;
     }
 
-    void display_stats(const Prune &prunebai) const{
-        std::cout<<get_name()<<"'s stats:\n";
-        std::cout<<"Guts: "<<stats.get_guts()<<"| Intelligence: "<<stats.get_intelligence()<<"| Charm"<<stats.get_charm()<<std::endl;
-        std::cout<<"Balance: "<<get_balance()<<std::endl;
-        std::cout<<"Prune: "<<get_prune()<<std::endl;
-        std::cout<<"Prune Buiyng Price (Sunday Only): "<<prunebai.get_buying_price()<<std::endl;
-        std::cout<<"Prune SellingPrice: "<<prunebai.get_selling_price()<<std::endl;
-        std::cout<<"Crop Slots: "<<get_crop_slots()<<std::endl;
-        std::cout<<"Crops Used:"<<crops_used<<std::endl;
-
-    }
-    friend std::ostream &operator<<(std::ostream &os, const Player &player) {
-        os<<player.name<<std::endl;
-        os<<player.balance<<std::endl;
-        os<<player.crop_slots<<std::endl;
-        os<<player.crops_used<<std::endl;
-        return os;
+    void display_stats(const Prune& pr) const {
+        std::cout << get_name() << "'s stats:\n";
+        std::cout << "Guts: " << stats.get_guts()
+                  << " | Intelligence: " << stats.get_intelligence()
+                  << " | Charm: " << stats.get_charm() << '\n';
+        std::cout << "Balance: " << get_balance() << "\nPrune: " << get_prune()
+                  << "\nPrune Buying Price (Sunday Only): " << pr.get_buying_price()
+                  << "\nPrune Selling Price: " << pr.get_selling_price()
+                  << "\nCrop Slots: " << get_crop_slots()
+                  << "\nCrops Used: " << crops_used << '\n';
     }
 };
 
 class prune_vendor : public NPC {
 public:
-    explicit prune_vendor(const std::string &name)
-        : NPC(name) {
-    }
-
-    void sayStuff() override{
-        std::cout<<get_name()<<" the prune vendor: Good greetings, esteemed citizen! I hear you would you like to purchase some prune?\nThey come at a great price and can be sold at an even greater one,\n but I would advise you to still be wise when making any kind of investment...\n";
+    explicit prune_vendor(const std::string& name) : NPC(name) {}
+    void sayStuff() override {
+        std::cout << get_name() << " the prune vendor: Good greetings, esteemed citizen! I hear you would like to purchase some prune?\n";
     }
 };
 
-bool isSunday(int day) {
-    return day%7==6;
-}
+bool isSunday(int day) { return day % 7 == 6; }
 
-void print_title() {
-    std::cout<<"Welcome to Ferma Animalelor!\n";
-}
+void print_title() { std::cout << "Welcome to Ferma Animalelor!\n"; }
 
 void print_menu() {
-    std::cout << "\nActions (choose number):\n";
-    std::cout << "1. Read at library (gain intelligence)\n";
-    std::cout << "2. Play swords with Farm Swordmaster (gain guts)\n";
-    std::cout << "3. Work at cafe (earn charm & money)\n";
-    std::cout << "4. Buy seeds\n";
-    std::cout << "5. Plant seed from inventory\n";
-    std::cout << "6. Buy crop slots (cost $100/slot)\n";
-    std::cout << "7. Talk to someone (25% chance to get an item)\n";
-    std::cout << "8. Buy prune (Sunday only)\n";
-    std::cout << "9. Sell prune (Mon-Sat)\n";
-    std::cout << "10. Exit\n";
+    std::cout << "\nActions (choose number):\n"
+              << "1. Read at library (gain intelligence)\n"
+              << "2. Play swords with Farm Swordmaster (gain guts)\n"
+              << "3. Work at cafe (earn charm & money)\n"
+              << "4. Buy seeds\n"
+              << "5. Plant seed from inventory\n"
+              << "6. Buy crop slots (cost $100/slot)\n"
+              << "7. Talk to someone (25% chance to get an item)\n"
+              << "8. Buy prune (Sunday only)\n"
+              << "9. Sell prune (Mon-Sat)\n"
+              << "10. Exit\n";
 }
-GameEngine* GameEngine::instance = nullptr;
+
 int main() {
-    srand(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+    srand(static_cast<unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
     print_title();
-    std::cout<<"What's your name?\n";
+
+    std::cout << "What's your name?\n";
     std::string name;
-    std::cin>>name;
+    std::cin >> name;
 
     Player player(name);
-    std::cout<<"Hello, "<<player.get_name()<<"!\nYour fresh new start at Ferma Animalelor has just begun! Here, have 100$ and 5 crops...on the house ;)\n";
+    std::cout << "Hello, " << player.get_name() << "!\nYour new start at Ferma Animalelor begins!\n";
 
-    std::vector<Seed> seeds = {
-        {"Turnip", 5},
-        {"Carrot", 8},
-        {"Wheat", 10},
-        {"Tomato", 12}
-    };
+    std::vector<Seed> seeds = {{"Turnip", 5}, {"Carrot", 8}, {"Wheat", 10}, {"Tomato", 12}};
 
-    Item PinkBow("Pink Bow",effectType::multiplyCharm);
-    Item Glasses("Glasses",effectType::multiplyIntelligence);
-    Item PluckSword("Pluck Sword",effectType::multiplyGuts);
-    Item GreenMonster("Green Monster",effectType::plantsGrowthBoost);
+    Item PinkBow("Pink Bow", effectType::multiplyCharm);
+    Item Glasses("Glasses", effectType::multiplyIntelligence);
+    Item PluckSword("Pluck Sword", effectType::multiplyGuts);
+    Item GreenMonster("Green Monster", effectType::plantsGrowthBoost);
 
     std::vector<Animal> animals = {
         {"Bill the Duck", PluckSword, "What the duck!"},
         {"Miss Piggy(TM)", PinkBow, "Oink!"},
         {"Aizen", GreenMonster, "Yokoso watashi no ferma animalelor iye!"},
-        {"Cristi", Glasses, "You are in a realm by yourself, the laughing stock of your village.\nYou are a comedic vessel that has no port or harbor,\na joke of a wanderer with no destination...\nMiau!\n"}
+        {"Cristi", Glasses, "You are a comedic vessel that has no port or harbor.\n"}
     };
 
     prune_vendor pruneSella("Adrian");
@@ -573,85 +389,82 @@ int main() {
     bursaprunelor.set_buying_price();
 
     while (!player.checkVictory()) {
-        int day=GameEngine::getInstance()->get_crt_day();
-        auto phase=GameEngine::getInstance()->get_phase();
-        std::cout<<"--- Day "<<day<<" "<<days[day%7]<<" ";
-        if (phase==Phase::Afternoon) std::cout<<"Afternoon"<<std::endl;
-        else if (phase==Phase::Morning) std::cout<<"Morning"<<std::endl;
-        else std::cout<<"Evening";
-        std::cout<<" ---"<<std::endl;
+        int day = GameEngine::getInstance()->get_crt_day();
+        Phase phase = GameEngine::getInstance()->get_phase();
+        std::cout << "--- Day " << day << " " << days[day % 7] << " ";
+        if (phase == Phase::Afternoon) std::cout << "Afternoon\n";
+        else if (phase == Phase::Morning) std::cout << "Morning\n";
+        else std::cout << "Evening\n";
+        std::cout << " ---\n";
+
         player.display_stats(bursaprunelor);
         player.harvestAndSell();
         print_menu();
-        int choice;
-        std::cout<<"What do you want to do?\n";
-        std::cin>>choice;
-        switch(choice) {
-            case 1:
-                player.goToLibrary();
-                std::cout<<"You went to the library and studied for quite a long time, you feel smarter now.\n";
+
+        int choice = 0;
+        std::cout << "What do you want to do?\n";
+        std::cin >> choice;
+
+        switch (choice) {
+            case 1: player.goToLibrary(); break;
+            case 2: player.playSwordsWithMaster(); break;
+            case 3: player.workAtTheCafe(); break;
+            case 4: {
+                int howmany, seedid;
+                std::cout << "How many seeds and which kind [a number and 0-3]?\n";
+                std::cin >> howmany >> seedid;
+                player.buySeeds(seeds[seedid], howmany);
                 break;
-            case 2:
-                player.playSwordsWithMaster();
-                std::cout<<"You clashed swords with the farm's masterswordsman, you feel tired, but a raging spirit is firing up within you now.\n";
+            }
+            case 5: {
+                int howmany, seedid;
+                std::cout << "How many seeds and which kind [a number and 0-3]?\n";
+                std::cin >> howmany >> seedid;
+                if (howmany <= 1) player.plantSeed(seeds[seedid]);
+                else player.plantMultipleSeeds(seeds[seedid], howmany);
                 break;
-            case 3:
-                player.workAtTheCafe();
-                std::cout<<"You just finished a shift at the local cafe, you got some money and feel more sociable now.\n";
+            }
+            case 6: {
+                int howmany;
+                std::cout << "How many crops would you like to buy?\n";
+                std::cin >> howmany;
+                player.buyCropSlot(100, howmany);
                 break;
-            case 4:
-                std::cout<<"How many seeds would you like to buy and what kind? [a number and 0-3]\n";
-                int howmany,seedid;
-                std::cin>>howmany>>seedid;
-                player.buySeeds(seeds[seedid],howmany);
-                std::cout<<"Thanks for shopping!\n";
+            }
+            case 7: {
+                int who;
+                std::cout << "Who would you like to talk to? Enter a number 0-3:\n";
+                std::cin >> who;
+                animals[who].sayStuff();
+                if (Animal::giveItem()) player.obtainItem(animals[who].get_item());
                 break;
-            case 5:
-                std::cout<<"How many seeds would you like to plant and what kind [a number and 0-3]?\n";
-                std::cin>>howmany>>seedid;
-                if (howmany<=1)
-                    player.plantSeed(seeds[seedid]);
-                else
-                    player.plantMultipleSeeds(seeds[seedid],howmany);
-                std::cout<<"Thanks for planting!\n";
-                break;
-            case 6:
-                std::cout<<"How many crops would you like to buy?\n";
-                std::cin>>howmany;
-                player.buyCropSlot(100,howmany);
-                break;
-            case 7:
-                std::cout<<"Who would you like to talk to? Enter a number 0-3]\n";
-                std::cin>>howmany;
-                animals[howmany].sayStuff();
-                if (__gnu_cxx::__alloc_traits<std::allocator<Animal>>::value_type::giveItem())
-                    player.obtainItem(animals[howmany].get_item());
-                break;
+            }
             case 8:
                 if (isSunday(day)) {
                     pruneSella.sayStuff();
-                    std::cout<<"Cate prune vrei?\n";
+                    int howmany;
+                    std::cout << "How many prune?\n";
                     std::cin >> howmany;
-                    player.buyPrune(howmany,bursaprunelor);
-                }
-                else
-                    std::cout<<"Nu ai voie!\n";
+                    player.buyPrune(howmany, bursaprunelor);
+                } else std::cout << "You can only buy prune on Sunday!\n";
+                break;
             case 9:
                 if (!isSunday(day)) {
-                    std::cout<<"Cate vinzi?\n";
-                    std::cin>>howmany;
-                    player.sellPrune(howmany,bursaprunelor);
-                }
-                else
-                    std::cout<<"Nu ai voie!\n";
+                    int howmany;
+                    std::cout << "How many to sell?\n";
+                    std::cin >> howmany;
+                    player.sellPrune(howmany, bursaprunelor);
+                } else std::cout << "You can only sell prune Monday–Saturday!\n";
                 break;
             case 10:
-                std::cout<<"aia e.\n";
-                exit(0);
-
+                std::cout << "Goodbye!\n";
+                return 0;
+            default:
+                std::cout << "Invalid choice.\n";
+                break;
         }
+        GameEngine::getInstance()->changePhase();
     }
-    std::cout<<"Bv, ai castigat, hai pa.\n";
+    std::cout << "Congratulations, you won!\n";
     return 0;
-
 }
