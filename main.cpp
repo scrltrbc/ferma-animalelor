@@ -38,6 +38,12 @@ public:
     void set_charm(int val) {
         charm=std::min(100,charm+val);
     }
+    friend std::ostream& operator<<(std::ostream &os, const Stats &stats) {
+        os<<stats.guts<<std::endl;
+        os<<stats.intelligence<<std::endl;
+        os<<stats.charm<<std::endl;
+        return os;
+    }
 };
 
 enum class effectType {
@@ -61,7 +67,10 @@ class Item {
     [[nodiscard]] effectType get_effect() const {
         return effect;
     }
-
+    friend std::ostream& operator<<(std::ostream &os, const Item &item) {
+        os<<item.get_name()<<std::endl;
+        return os;
+    }
 };
 
 class Prune{
@@ -89,7 +98,11 @@ public:
     void set_selling_price() {
         sellingPrice=rand();
     }
-
+    friend std::ostream& operator<<(std::ostream &os, const Prune &prune) {
+        os<<prune.buyingPrice<<std::endl;
+        os<<prune.sellingPrice<<std::endl;
+        return os;
+    }
 };
 
 class Seed {
@@ -111,7 +124,11 @@ public:
     [[nodiscard]] int get_seed_cost() const {
         return seedCost;
     }
-
+    friend std::ostream& operator<<(std::ostream &os, const Seed &seed) {
+        os<<seed.name<<std::endl;
+        os<<seed.seedCost;
+        return os;
+    }
 };
 
 class Plant : public Seed{
@@ -138,6 +155,12 @@ public:
     void set_selling_price(int selling_price) {
         sellingPrice = selling_price;
     }
+    friend std::ostream& operator<<(std::ostream &os, const Plant &plant) {
+        os<<plant.get_name()<<std::endl;
+        os<<plant.sellingPrice<<std::endl;
+        os<<plant.turnsSincePlanted<<std::endl;
+        return os;
+    }
 };
 
 class NPC {
@@ -154,6 +177,10 @@ public:
 
     [[nodiscard]] std::string get_name() const {
         return name;
+    }
+    friend std::ostream& operator<<(std::ostream &os, const NPC &npc) {
+        os<<npc.name<<std::endl;
+        return os;
     }
 };
 
@@ -183,6 +210,12 @@ public:
 
     [[nodiscard]] std::string get_catchphrase() const {
         return catchphrase;
+    }
+    friend std::ostream& operator<<(std::ostream &os, const Animal &animal) {
+        os<<animal.get_name()<<std::endl;
+        os<<animal.get_catchphrase()<<std::endl;
+        os<<animal.get_item()<<std::endl;
+        return os;
     }
 };
 
@@ -462,6 +495,13 @@ public:
         std::cout<<"Crop Slots: "<<crop_slots<<std::endl;
         std::cout<<"Crops Used:"<<crops_used<<std::endl;
 
+    }
+    friend std::ostream &operator<<(std::ostream &os, const Player &player) {
+        os<<player.name<<std::endl;
+        os<<player.balance<<std::endl;
+        os<<player.crop_slots<<std::endl;
+        os<<player.crops_used<<std::endl;
+        return os;
     }
 };
 
