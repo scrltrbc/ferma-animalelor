@@ -144,23 +144,12 @@ class NPC {
     std::string name;
 
 public:
-    NPC(std::string name)
+    explicit NPC(std::string name)
         : name(std::move(name)){
     }
     virtual ~NPC()=default;
     virtual void sayStuff() {
         std::cout<<"Hello!"<<std::endl;
-    }
-
-    NPC(const NPC &other)
-        : name(other.name) {
-    }
-
-    NPC& operator=(const NPC &other) {
-        if (this == &other)
-            return *this;
-        name = other.name;
-        return *this;
     }
 
     [[nodiscard]] std::string get_name() const {
@@ -172,16 +161,17 @@ class Animal : public NPC {
     Item item;
     std::string catchphrase;
 public:
-    Animal(const std::string &name,const Item &item,const std::string &catchphrase)
+    Animal(const std::string &name,const Item &item,std::string catchphrase)
         : NPC(name),
           item(item),
-          catchphrase(catchphrase){
+          catchphrase(std::move(catchphrase)){
     }
 
     void sayStuff() override {
         std::cout<<get_name()<<": "<<catchphrase<<std::endl;
     }
-    bool giveItem() {
+
+    static bool giveItem() {
         if (rand()%4==0)
             return true;
         return false;
@@ -283,7 +273,7 @@ class Player {
 
 
 public:
-    Player(std::string &name)
+    explicit Player(std::string &name)
         : name(std::move(name)),
           balance(100),
           crop_slots(5),
@@ -357,7 +347,7 @@ public:
         for (int i=0; i<howmany; i++) {
             seeds.push_back(seed.get_name());
         }
-        balance=(int)(balance-cost);
+        balance=static_cast<int>(balance - cost);
         return true;
     }
 
@@ -403,14 +393,14 @@ public:
                     earnings+=p->get_selling_price();
                     p=plantedPlants.erase(p);
                 }
-                else {p++;}
+                else {++p;}
             }
             else
                 if (p->get_turns_since_planted()>=6) {
                     earnings+=p->get_selling_price();
                     p=plantedPlants.erase(p);
                 }
-                else {p++;}
+                else {++p;}
         }
         set_balance(earnings);
         return earnings;
@@ -430,7 +420,7 @@ public:
         return true;
     }
 
-    bool buyPrune(int howmany, Prune &prunedecumparat) {
+    bool buyPrune(int howmany, const Prune &prunedecumparat) {
         if (howmany==0) { return false; }
         if (prunedecumparat.get_selling_price()*howmany>balance) {
             return false;
@@ -440,7 +430,7 @@ public:
         return true;
     }
 
-    bool sellPrune(int howmany, Prune &prunedevandut) {
+    bool sellPrune(int howmany, const Prune &prunedevandut) {
         if (howmany==0) { return false; }
         if (howmany>prune) {
             std::cout<<"You don't have that many prune :(";
@@ -454,7 +444,7 @@ public:
     void obtainItem(const Item &item) {
         items.push_back(item);
     }
-    bool checkVictory() const {
+    [[nodiscard]] bool checkVictory() const {
         if (stats.get_intelligence() >= 100) return true;
         if (stats.get_guts() >= 100) return true;
         if (stats.get_charm() >= 100) return true;
@@ -615,10 +605,8 @@ int main() {
                     std::cout<<"Nu ai voie!\n";
                 break;
             case 10:
-                exit(0);
-                break;
-            default:
                 std::cout<<"aia e.\n";
+                exit(0);
 
         }
     }
