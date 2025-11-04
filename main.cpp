@@ -336,7 +336,7 @@ class prune_vendor : public NPC {
 public:
     explicit prune_vendor(const std::string& name) : NPC(name) {}
     void sayStuff() override {
-        std::cout << get_name() << " the prune vendor: Good greetings, esteemed citizen! I hear you would like to purchase some prune?\n";
+        std::cout << get_name() << " the prune vendor: Good greetings, esteemed citizen! I hear you would you like to purchase some prune?\nThey come at a great price and can be sold at an even greater one,\n but I would advise you to still be wise when making any kind of investment...\n";
     }
 };
 
@@ -380,7 +380,7 @@ int main() {
         {"Bill the Duck", PluckSword, "What the duck!"},
         {"Miss Piggy(TM)", PinkBow, "Oink!"},
         {"Aizen", GreenMonster, "Yokoso watashi no ferma animalelor iye!"},
-        {"Cristi", Glasses, "You are a comedic vessel that has no port or harbor.\n"}
+        {"Cristi", Glasses, "You are in a realm by yourself, the laughing stock of your village.\nYou are a comedic vessel that has no port or harbor,\na joke of a wanderer with no destination...\nMiau!\n"}
     };
 
     prune_vendor pruneSella("Adrian");
@@ -406,9 +406,18 @@ int main() {
         std::cin >> choice;
 
         switch (choice) {
-            case 1: player.goToLibrary(); break;
-            case 2: player.playSwordsWithMaster(); break;
-            case 3: player.workAtTheCafe(); break;
+            case 1:
+                player.goToLibrary();
+                std::cout<<"You went to the library and studied for quite a long time, you feel smarter now.\n";
+                break;
+            case 2:
+                player.playSwordsWithMaster();
+                std::cout<<"You clashed swords with the farm's masterswordsman, you feel tired, but a raging spirit is firing up within you now.\n";
+                break;
+            case 3:
+                player.workAtTheCafe();
+                std::cout<<"You just finished a shift at the local cafe, you got some money and feel more sociable now.\n";
+                break;
             case 4: {
                 int howmany, seedid;
                 std::cout << "How many seeds and which kind [a number and 0-3]?\n";
