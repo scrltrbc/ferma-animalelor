@@ -276,29 +276,29 @@ class Player {
     std::vector<Plant> plantedPlants;
 
     bool hasPluckSword() {
-        for (int i=0; i<items.size(); i++) {
-            if (items[i].get_effect()==effectType::multiplyGuts)
+        for (const auto & item : items) {
+            if (item.get_effect()==effectType::multiplyGuts)
                 return true;
         }
         return false;
     }
     bool hasGlasses() {
-        for (int i=0; i<items.size(); i++) {
-            if (items[i].get_effect()==effectType::multiplyIntelligence)
+        for (const auto & item : items) {
+            if (item.get_effect()==effectType::multiplyIntelligence)
                 return true;
         }
         return false;
     }
     bool hasPinkBow() {
-        for (int i=0; i<items.size(); i++) {
-            if (items[i].get_effect()==effectType::multiplyCharm)
+        for (const auto & item : items) {
+            if (item.get_effect()==effectType::multiplyCharm)
                 return true;
         }
         return false;
     }
     bool hasGreenMonster() {
-        for (int i=0; i<items.size(); i++) {
-            if (items[i].get_effect()==effectType::plantsGrowthBoost)
+        for (const auto & item : items) {
+            if (item.get_effect()==effectType::plantsGrowthBoost)
                 return true;
         }
         return false;
@@ -623,7 +623,7 @@ int main() {
                 std::cout<<"Who would you like to talk to? Enter a number 0-3]\n";
                 std::cin>>howmany;
                 animals[howmany].sayStuff();
-                if (animals[howmany].giveItem())
+                if (__gnu_cxx::__alloc_traits<std::allocator<Animal>>::value_type::giveItem())
                     player.obtainItem(animals[howmany].get_item());
                 break;
             case 8:
