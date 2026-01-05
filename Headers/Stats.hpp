@@ -4,9 +4,8 @@
 
 #ifndef OOP_STATS_HPP
 #define OOP_STATS_HPP
-#include <iostream>
-#include<SFML/Graphics.hpp>
 
+#include <algorithm>
 class Stats {
     //Atribute
     int guts;
@@ -25,7 +24,5 @@ public:
     void set_guts(int val);
     void set_intelligence(int val);
     void set_charm(int val);
-
-    friend std::ostream& operator<<(std::ostream& os, const Stats& stats);
 };
 #endif //OOP_STATS_HPP

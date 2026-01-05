@@ -21,12 +21,8 @@ class Item : public Entity{
 public:
     //Constructori&Destructor
     Item(const std::string &texturePath, const sf::Vector2f &pos, const std::string &name, effectType effect);
-
+    ~Item() override;
     [[nodiscard]] effectType get_effect() const;
 
-    friend std::ostream& operator<<(std::ostream& os, const Item& item) {
-        os << item.get_name() << '\n';
-        return os;
-    }
 };
 #endif //OOP_ITEM_HPP

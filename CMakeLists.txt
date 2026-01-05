@@ -76,6 +76,20 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Headers/Exceptions.hpp
         Headers/ResourceManager.hpp
         Headers/CustomAllocator.hpp
+        Sources/Prune.cpp
+        Headers/Prune.hpp
+        Sources/Crop.cpp
+        Headers/Crop.hpp
+        Sources/Building.cpp
+        Headers/Building.hpp
+        Sources/Library.cpp
+        Headers/Library.hpp
+        Sources/Dojo.cpp
+        Headers/Dojo.hpp
+        Sources/Cafe.cpp
+        Headers/Cafe.hpp
+        Sources/Day.cpp
+        Headers/Day.hpp
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

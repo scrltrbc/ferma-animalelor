@@ -503,14 +503,12 @@ int main()
 }*/
 
 
-#include "Headers/Player.hpp"
-#include "Headers/CustomAllocator.hpp"
 #include "Headers/Game.hpp"
 int main() {
+    srand(static_cast<unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
     Game game;
     while (game.isRunning()) {
         game.update();
-
         game.render();
     }
     return 0;
