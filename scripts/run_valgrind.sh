@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-INPUT_FILE=${INPUT_FILE:-tastatura.txt}
+INPUT_FILENAME=${INPUT_FILENAME:-tastatura.txt}
 RUN_INTERACTIVE=${RUN_INTERACTIVE:-false}
 BUILD_DIR=${BUILD_DIR:-build}
 EXECUTABLE_NAME=${EXECUTABLE_NAME:-oop}
@@ -16,14 +16,19 @@ fi
 run_valgrind() {
     # remove --show-leak-kinds=all (and --track-origins=yes) if there are many leaks in external libs
     valgrind --leak-check=full \
-            --show-leak-kinds=all \
-            --track-origins=yes \
-            --error-exitcode=1 \
-            ./"${BIN_DIR}"/"${EXECUTABLE_NAME}"
+             --show-leak-kinds=all \
+             --track-origins=yes \
+             --leak-resolution=med \
+             --vgdb=no \
+             --suppressions=./scripts/valgrind-suppressions.supp \
+             --error-exitcode=1 \
+             ./"${BIN_DIR}"/"${EXECUTABLE_NAME}" &
+    #          --gen-suppressions=all \
+    bash ./scripts/run_test.sh 25 4 8
 }
 
 if [[ "${RUN_INTERACTIVE}" = true ]]; then
     run_valgrind
 else
-    cat < "${INPUT_FILE}" | tr -d '\r' | run_valgrind
+    tr -d '\r' < "${INPUT_FILENAME}" | run_valgrind
 fi

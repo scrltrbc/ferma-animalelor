@@ -1,3 +1,4 @@
+/*/*
 #include <iostream>
 #include <string>
 #include <chrono>
@@ -475,5 +476,40 @@ int main() {
         GameEngine::getInstance()->changePhase();
     }
     std::cout << "Congratulations, you won!\n";
+    return 0;
+}
+#1#
+#include<iostream>
+#include <SFML/Graphics.hpp>
+
+int main()
+{
+    auto window = sf::RenderWindow(sf::VideoMode({680, 400}), "Ferma");
+    window.setFramerateLimit(144);
+
+    while (window.isOpen())
+    {
+        while (const std::optional event = window.pollEvent())
+        {
+            if (event->is<sf::Event::Closed>())
+            {
+                window.close();
+            }
+        }
+
+        window.clear();
+        window.display();
+    }
+}*/
+
+
+#include "Headers/Game.hpp"
+int main() {
+    srand(static_cast<unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
+    Game game;
+    while (game.isRunning()) {
+        game.update();
+        game.render();
+    }
     return 0;
 }
