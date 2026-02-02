@@ -1,61 +1,29 @@
-//
-// Created by becbu on 12/5/2025.
-//
-
 #include "../Headers/Plant.hpp"
 
-Plant::Plant(const std::string &texturePath, const sf::Vector2f &pos, const std::string &name, int seedCost,
-    int sellingPrice, int growthCap, bool planted, bool boosted) : Entity(texturePath, pos, name),seedCost(seedCost),
-    sellingPrice(sellingPrice), growth(0), growthCap(growthCap), planted(planted), boosted(boosted){}
+Plant::Plant(const std::shared_ptr<const Seed> &seED, const sf::Vector2f &pOs):Entity(seED->gEt_tEXtuRe_pATh(), pOs, seED->get_nAMe()) {
+}
 
 Plant::~Plant()=default;
 
-void Plant::plantAt(const sf::Vector2f &posCrop, bool applyboost) {
-    planted = true;
-    growth = 1;
-    setPosition(posCrop);
-    if (applyboost)
-        boosted = true;
+void Plant::gRoW() {
+    gRoWTh += bOOstED ? 2 : 1;
 
+    if (gRoWTh > sEeD->gET_gROwTh_cAp())
+        gRoWTh = sEeD->gET_gROwTh_cAp();
 }
 
-void Plant::grow() {
-    if (!planted) return;
-
-    growth += boosted ? 2 : 1;
-
-    if (growth > growthCap)
-        growth = growthCap;
+bool Plant::iS_reADy() const {
+    return gRoWTh==sEeD->gET_gROwTh_cAp();
 }
 
-bool Plant::isReady() const {
-    return planted&&(growth==growthCap);
+int Plant::gEt_sElliNg_pRiCe() const {
+    return sEeD->gET_sELliNG_pRIce();
 }
 
-int Plant::get_seed_cost() const {
-    return seedCost;
+bool Plant::is_bOOstEd() const {
+    return bOOstED;
 }
 
-int Plant::get_selling_price() const {
-    return sellingPrice;
-}
-
-int Plant::get_growth() const {
-    return growth;
-}
-
-int Plant::get_growth_cap() const {
-    return growthCap;
-}
-
-bool Plant::is_planted() const {
-    return planted;
-}
-
-bool Plant::is_boosted() const {
-    return boosted;
-}
-
-void Plant::set_boosted(bool boosted) {
-    this->boosted=boosted;
+void Plant::sEt_boOStEd(bool bOOsTEd) {
+    this->bOOstED=bOOsTEd;
 }

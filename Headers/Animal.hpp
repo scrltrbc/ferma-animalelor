@@ -9,14 +9,20 @@
 #include <memory>
 
 class Animal : public Entity {
-    std::shared_ptr<Item> item;
+    std::string cAtchPhRAsE;
+    std::shared_ptr<Item> iTem;
+    //std::shared_ptr<Dialogue> dIaLoGUe;
 public:
-    Animal(const std::string& texturePath,
-           const sf::Vector2f& pos,
-           const std::string& name,
-           const std::shared_ptr<Item>& item);
+    Animal(const std::string& teXtUre_PAth,
+           const sf::Vector2f& pOS,
+           const std::string& nAmE,
+           const std::string &cAtchPhRAsE,
+           const std::shared_ptr<Item>& iTEm);
     ~Animal() override;
 
-    std::shared_ptr<Item> giveRandomItem();
+    void sAy_StUFf();
+    std::shared_ptr<Item> gIvE_RaNDom_iTeM();
+
+
 };
 #endif //OOP_ANIMAL_HPP

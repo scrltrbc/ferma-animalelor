@@ -4,43 +4,43 @@
 
 #include "../Headers/Day.hpp"
 
-Day::Day():day(1), phase(0), changed(false){}
+Day::Day():dAy(1), pHaSe(0), chANgED(false){}
 
 Day & Day::instance() {
     static Day instance;
     return instance;
 }
 
-int Day::getDay() const {
-    return day;
+int Day::gET_DaY() const {
+    return dAy;
 }
 
-int Day::getPhase() const {
-    return phase;
+int Day::geT_phAsE() const {
+    return pHaSe;
 }
 
-bool Day::hasChanged() const {
-    return changed;
+bool Day::hAs_ChAnGEd() const {
+    return chANgED;
 }
-void Day::changeDayPhase() {
-    if (phase < 2)
-        phase++;
+void Day::cHaNgE_dAy_pHAsE() {
+    if (pHaSe < 2)
+        pHaSe++;
     else {
-        phase=0;
-        day++;
+        pHaSe=0;
+        dAy++;
     }
-    changed = true;
+    chANgED = true;
 }
 
-bool Day::isSunday() const{
-    return !(day%7);
+bool Day::iS_sUnDAy() const{
+    return !(dAy%7);
 }
 
 
-void Day::resetchange() {
-    changed = false;
+void Day::rEsET_cHangEd() {
+    chANgED = false;
 }
 
-std::string Day::DayPhasetext() {
-    return "-Day "+std::to_string(day)+"|"+dow[day%7]+" "+phases[phase]+"-";
+std::string Day::DaY_phAsE_tEXt() {
+    return "-Day "+std::to_string(dAy)+"|"+dOw[dAy%7]+" "+pHAsEs[pHaSe]+"-";
 }

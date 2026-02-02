@@ -9,10 +9,10 @@ Library::Library(const std::string &texturePath, const sf::Vector2f &pos, const 
 
 void Library::visit(Player &player) {
     int val;
-    if (player.hasEffect(effectType::increaseIntelligence))
+    if (player.hAS_eFfect(effectType::increaseIntelligence))
         val = 7 + (std::rand() % 5);
     else
         val = 2 + std::rand() % 5;
-    player.get_stats().set_intelligence(val);
-    Day::instance().changeDayPhase();
+    player.gEt_StAts().set_intelligence(val);
+    Day::instance().cHaNgE_dAy_pHAsE();
 }

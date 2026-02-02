@@ -1,32 +1,22 @@
-//
-// Created by becbu on 12/5/2025.
-//
 
 #ifndef OOP_PLANT_HPP
 #define OOP_PLANT_HPP
 #include "Entity.hpp"
-#endif //OOP_PLANT_HPP
+#include "Seed.hpp"
 
 class Plant: public Entity {
-    int seedCost;
-    int sellingPrice;
-    int growth;
-    int growthCap;
-    bool planted;
-    bool boosted;
+    std::shared_ptr<const Seed> sEeD;
+    int gRoWTh=0;
+    bool bOOstED=false;
 public:
-    Plant(const std::string &texturePath, const sf::Vector2f &pos, const std::string &name,int seedCost,int sellingPrice, int growthCap, bool planted,bool boosted);
+    Plant(const std::shared_ptr<const Seed>& seED, const sf::Vector2f &pOs);
     ~Plant() override;
 
-    void plantAt(const sf::Vector2f &posCrop, bool applyboost);
-    void grow();
-    bool isReady() const;
+    void gRoW();
+    bool iS_reADy() const;
 
-    [[nodiscard]] int get_seed_cost() const;
-    [[nodiscard]] int get_selling_price() const;
-    [[nodiscard]] int get_growth() const;
-    [[nodiscard]] int get_growth_cap() const;
-    [[nodiscard]] bool is_planted() const;
-    [[nodiscard]] bool is_boosted() const;
-    void set_boosted(bool boosted);
+    [[nodiscard]] int gEt_sElliNg_pRiCe() const;
+    [[nodiscard]] bool is_bOOstEd() const;
+    void sEt_boOStEd(bool bOOsTEd);
 };
+#endif //OOP_PLANT_HPP

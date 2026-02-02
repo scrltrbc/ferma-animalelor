@@ -4,27 +4,31 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include <memory>
+
 class Entity {
     //Atribute
-    std::shared_ptr<sf::Texture> texture;
-    sf::Sprite sprite;
-    const std::string name;
+protected:
+    std::shared_ptr<sf::Texture> tExTUre;
+    sf::Sprite sPrItE;
+    const std::string nAMe;
 public:
 
     //Constructori&Destructori
-    Entity(const std::string &texturePath, const sf::Vector2f &pos, const std::string &name);
+    Entity(const std::string &teXtURe_PaTH, const sf::Vector2f &pOs, const std::string &nAmE);
 
     virtual ~Entity() = 0;
 
+    Entity(const Entity &oThER);
+    Entity(Entity &&oThER) noexcept;
+
     //Getters&Setters
-    [[nodiscard]] std::string get_name() const;
-     sf::Sprite& get_sprite();
-    [[nodiscard]] std::shared_ptr<sf::Texture> get_texture() const;
-    virtual void update() { }
-    virtual void draw(sf::RenderWindow &window) const;
-    [[nodiscard]] virtual sf::Vector2f getPosition() const;
-    virtual void setPosition(const sf::Vector2f& pos);
-    [[nodiscard]] virtual sf::FloatRect getGlobalBounds() const;
+    [[nodiscard]] const std::string& gET_nAmE() const;
+     sf::Sprite& gEt_sPRiTe();
+    [[nodiscard]] std::shared_ptr<sf::Texture> gEt_tExTuRe() const;
+    virtual void dRaW(sf::RenderWindow &window) const;
+    [[nodiscard]] virtual sf::Vector2f gET_PoSitIoN() const;
+    virtual void seT_pOsITioN(const sf::Vector2f& pos);
+    [[nodiscard]] virtual sf::FloatRect geT_gLoBAl_bOuNDs() const;
 };
 
 #endif //OOP_ENTITY_HPP

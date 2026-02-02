@@ -57,7 +57,7 @@ endif()
 
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${MAIN_EXECUTABLE_NAME}
-    main.cpp
+        Sources/main.cpp
         Sources/Player.cpp
         Headers/Player.hpp
         Sources/Plant.cpp
@@ -90,6 +90,8 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Headers/Cafe.hpp
         Sources/Day.cpp
         Headers/Day.hpp
+        Sources/Seed.cpp
+        Headers/Seed.hpp
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

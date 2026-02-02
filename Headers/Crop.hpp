@@ -1,22 +1,25 @@
-//
-// Created by becbu on 12/7/2025.
-//
-
 #ifndef OOP_CROP_HPP
 #define OOP_CROP_HPP
 #include "Entity.hpp"
 #include "Plant.hpp"
+#include <memory>
+
 class Crop:public Entity {
-    std::shared_ptr<Plant> plant;
+    std::unique_ptr<Plant> pLaNt;
 public:
-    Crop(const std::string &texturePath, const sf::Vector2f &pos, const std::string &name);
+    Crop(const std::string &tExTUrE_pATh, const sf::Vector2f &pOs, const std::string &nAmE);
+
+    Crop(const Crop &other)
+        : Entity(other),
+          pLaNt(nullptr) {
+    }
+
     ~Crop() override;
-    bool isOccupied() const;
-    bool isReady() const;
-    [[nodiscard]] std::shared_ptr<Plant> get_plant() const;
-    bool plantHere(std::shared_ptr<Plant> &p, bool boosted);
-    void growPlant();
-    std::shared_ptr<Plant> harvest();
+    bool iS_OcCUpiEd() const;
+    bool is_rEAdY() const;
+    void grOw_pLAnT();
+    bool pLanT_HeRe(const std::shared_ptr<Seed> &sEeD, bool bOOstEd);
+    int hArvEsT();
 };
 
 #endif //OOP_CROP_HPP

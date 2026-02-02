@@ -1,44 +1,37 @@
-//
-// Created by becbu on 12/7/2025.
-//
-
 #include "../Headers/Crop.hpp"
 
-Crop::Crop(const std::string &texturePath, const sf::Vector2f &pos, const std::string &name):
-        Entity(texturePath, pos, name),plant(nullptr){}
+Crop::Crop(const std::string &tExTUrE_pATh, const sf::Vector2f &pOs, const std::string &nAmE):
+        Entity(tExTUrE_pATh, pOs, nAmE),pLaNt(nullptr){}
 
 Crop::~Crop()=default;
 
-bool Crop::isOccupied() const {
-        return plant!=nullptr;
+bool Crop::iS_OcCUpiEd() const {
+        return pLaNt!=nullptr;
 }
 
-bool Crop::isReady() const {
-        return isOccupied()&&plant->isReady();
+bool Crop::is_rEAdY() const {
+        return iS_OcCUpiEd()&&pLaNt->iS_reADy();
 }
 
-std::shared_ptr<Plant> Crop::get_plant() const {
-        return plant;
-}
 
-bool Crop::plantHere(std::shared_ptr<Plant> &p, bool boosted) {
-        if (plant!=nullptr)
+bool Crop::pLanT_HeRe(const std::shared_ptr<Seed> &sEeD, bool bOOstEd) {
+        if (pLaNt!=nullptr)
                 return false;
-        plant=p;
-        plant->plantAt(getPosition(), boosted);
+        pLaNt=std::make_unique<Plant>(sEeD, gET_PoSitIoN());
+        pLaNt->sEt_boOStEd(bOOstEd);
         return true;
 }
 
-void Crop::growPlant() {
-        if (isOccupied())
-                plant->grow();
+void Crop::grOw_pLAnT() {
+        if (iS_OcCUpiEd())
+                pLaNt->gRoW();
 }
 
-std::shared_ptr<Plant> Crop::harvest() {
-        if (!plant || !plant->isReady())
-                return nullptr;
+int Crop::hArvEsT() {
+        if (!is_rEAdY())
+                return 0;
 
-        auto harvested = plant;
-        plant.reset();
-        return harvested;
+        int vAl = pLaNt->gEt_sElliNg_pRiCe();
+        pLaNt.reset();
+        return vAl;
 }

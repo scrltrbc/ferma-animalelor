@@ -1,6 +1,3 @@
-//
-// Created by becbu on 12/5/2025.
-//
 
 #ifndef OOP_GAME_HPP
 #define OOP_GAME_HPP
@@ -12,6 +9,10 @@
 #include "Building.hpp"
 #include "Crop.hpp"
 #include "ResourceManager.hpp"
+#include "Dojo.hpp"
+#include "Day.hpp"
+#include "Cafe.hpp"
+#include "Library.hpp"
 
 
 
@@ -23,23 +24,25 @@ class Game {
     ResourceManager<sf::Font> fonts;
     Prune prune;
     Player player;
-    std::vector<Animal> animals;
-    std::vector<std::unique_ptr<Building>> buildings;
-    std::vector<Crop> crops;
+    std::vector<std::shared_ptr<Entity>> entities;
+    std::vector<std::shared_ptr<Animal>> animals;
+    std::vector<std::shared_ptr<Building>> buildings;
+    std::vector<std::shared_ptr<Crop>> crops;
     //Metode Private
     void initWindow();
-    void initFonts();
-    void initUI();
+    //void initFonts();
+    //void initUI();
     void initAnimals();
     void initBuildings();
     void initCrops();
+    void initEntities();
 
     void updateInput(float dt);
-    void updateInteractions();
-    void updatePlants(float dt);
-    void updateMessage(float dt);
+    //void updateInteractions();
+    //void updatePlants(float dt);
+    //void updateMessage(float dt);
 
-    void renderUI();
+    //void renderUI();
     void renderAnimals();
     void renderBuildings();
     void renderCrops();

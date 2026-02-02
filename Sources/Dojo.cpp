@@ -11,10 +11,10 @@ Dojo::Dojo(const std::string &texturePath, const sf::Vector2f &pos, const std::s
 
 void Dojo::visit(Player &player) {
     int val;
-    if (player.hasEffect(effectType::increaseGuts))
+    if (player.hAS_eFfect(effectType::increaseGuts))
         val = 7 + (std::rand() % 5);
     else
         val = 2 + std::rand() % 5;
-    player.get_stats().set_guts(val);
-    Day::instance().changeDayPhase();
+    player.gEt_StAts().set_guts(val);
+    Day::instance().cHaNgE_dAy_pHAsE();
 }

@@ -8,7 +8,7 @@
 
 class Cafe : public Building {
 public:
-    Cafe(const std::string &texturePath, const sf::Vector2f &pos, const std::string &name);
-    void visit(Player &player) override;
+    Cafe(const std::string &tExTUrE_pAtH, const sf::Vector2f &pOs, const std::string &nAmE);
+    void visit(Player &pLaYeR) override;
 };
 #endif //OOP_CAFE_HPP

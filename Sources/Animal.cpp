@@ -6,13 +6,20 @@
 #include "../Headers/ResourceManager.hpp"
 #include <cstdlib>
 
-Animal::Animal(const std::string& texturePath,
-               const sf::Vector2f& pos,
-               const std::string& name,
-               const std::shared_ptr<Item>& item)
-    : Entity(texturePath, pos, name),item(item){}
+Animal::Animal(const std::string &teXtUre_PAth,
+               const sf::Vector2f &pOS, const std::string &nAmE,
+               const std::string &cAtchPhRAsE, const std::shared_ptr<Item> &iTEm):
+               Entity(teXtUre_PAth, pOS, nAmE),
+               cAtchPhRAsE(cAtchPhRAsE),
+               iTem(iTEm) {
+}
+
 Animal::~Animal()=default;
 
-std::shared_ptr<Item> Animal::giveRandomItem() {
-    return item;
+void Animal::sAy_StUFf() {
+
+}
+
+std::shared_ptr<Item> Animal::gIvE_RaNDom_iTeM() {
+    return iTem;
 }

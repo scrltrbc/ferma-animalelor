@@ -11,11 +11,11 @@
 class Building : public Entity {
 public:
     //Constructori&Destructor
-    Building(const std::string &texturePath, const sf::Vector2f &pos, const std::string &name);
+    Building(const std::string &teXtURe_pATh, const sf::Vector2f &pOS, const std::string &nAmE);
     ~Building() override;
 
     //Metode Publice
-    virtual void visit(Player &player) = 0;
+    virtual void visit(Player &pLaYeR) = 0;
 };
 
 

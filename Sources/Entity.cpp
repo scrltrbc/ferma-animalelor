@@ -4,37 +4,51 @@
 
 #include "../Headers/Entity.hpp"
 #include "../Headers/ResourceManager.hpp"
-Entity::Entity(const std::string &texturePath, const sf::Vector2f &pos, const std::string &name)
-    : texture(ResourceManager<sf::Texture>().get(texturePath)), sprite(*texture),name(name) {
-    sprite.setPosition(pos);
+
+Entity::Entity(const std::string &teXtURe_PaTH, const sf::Vector2f &pOs, const std::string &nAmE)
+    : tExTUre(ResourceManager<sf::Texture>().get(teXtURe_PaTH)), sPrItE(*tExTUre),nAMe(nAmE) {
+    sPrItE.setPosition(pOs);
 }
 Entity::~Entity()=default;
 
+Entity::Entity(const Entity &other)
+        : tExTUre(other.tExTUre),
+          sPrItE(other.sPrItE),
+          nAMe(other.nAMe) {
+}
+
+Entity::Entity(Entity &&other) noexcept
+    : tExTUre(std::move(other.tExTUre)),
+      sPrItE(std::move(other.sPrItE)),
+      nAMe(other.nAMe) {
+}
+
+
 //Getters&Setters
-std::string Entity::get_name() const {
-    return name;
+const std::string& Entity::gET_nAmE() const {
+    return nAMe;
 }
 
-sf::Sprite& Entity::get_sprite(){
-    return sprite;
+sf::Sprite& Entity::gEt_sPRiTe(){
+    return sPrItE;
 }
 
-std::shared_ptr<sf::Texture> Entity::get_texture() const {
-    return texture;
+std::shared_ptr<sf::Texture> Entity::gEt_tExTuRe() const {
+    return tExTUre;
 }
 
-void Entity::draw(sf::RenderWindow &window) const {
-    window.draw(sprite);
+void Entity::dRaW(sf::RenderWindow &window) const {
+    window.draw(sPrItE);
 }
 
-sf::Vector2f Entity::getPosition() const {
-    return sprite.getPosition();
+sf::Vector2f Entity::gET_PoSitIoN() const {
+    return sPrItE.getPosition();
 }
 
-void Entity::setPosition(const sf::Vector2f &pos) {
-    sprite.setPosition(pos);
+void Entity::seT_pOsITioN(const sf::Vector2f &pos) {
+    sPrItE.setPosition(pos);
 }
 
-sf::FloatRect Entity::getGlobalBounds() const {
-    return sprite.getGlobalBounds();
+sf::FloatRect Entity::geT_gLoBAl_bOuNDs() const {
+    return sPrItE.getGlobalBounds();
 }

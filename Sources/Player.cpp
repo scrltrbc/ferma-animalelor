@@ -1,30 +1,26 @@
-//
-// Created by becbu on 12/5/2025.
-//
-
 #include "../Headers/Player.hpp"
 
 
-Stats Player::get_stats() const {
-    return stats;
+Stats Player::gEt_StAts() const {
+    return stATs;
 }
 
-int Player::get_prune() const {
-    return prune;
+int Player::gEt_pRuNe() const {
+    return pRuNE;
 }
 
-Player::Player(const std::string &texturePath, const sf::Vector2f &pos, const std::string &name, int balance, int prune, float speed,
-               const std::vector<std::shared_ptr<Item>> &items, const std::vector<std::shared_ptr<Plant>> &plants)
-    : Entity(texturePath, pos, name),
-          balance(balance),
-          prune(prune),
-          speed(speed),
-          items(items),
-          plants(plants) { loadTextures();}
+Player::Player(const std::string &tExTUrE_pATh, const sf::Vector2f &pOs, const std::string &nAMe, int bAlANcE, int pRuNe, float sPeED,
+               const std::vector<std::shared_ptr<Item>> &iTEmS, const std::vector<std::shared_ptr<Plant>> &pLanTS)
+    : Entity(tExTUrE_pATh, pOs, nAMe),
+          baLaNCe(bAlANcE),
+          pRuNE(pRuNe),
+          sPeED(sPeED),
+          itEmS(iTEmS),
+          pLaNTs(pLanTS) { lOAd_TexTUreS();}
 
 Player::~Player()=default;
 
-void Player::movePlayer(float dt) {
+void Player::mOvE_PlaYEr(float dt) {
     sf::Vector2f dir(0.f, 0.f);
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) dir.y -= 1;
@@ -36,98 +32,81 @@ void Player::movePlayer(float dt) {
         float len = std::sqrt(dir.x * dir.x + dir.y * dir.y);
         dir /= len;
 
-        updateDirectionTexture(dir);
-        get_sprite().move(dir * speed * dt);
+        uPdaTe_DirEcTiOn(dir);
+        gEt_sPRiTe().move(dir * sPeED * dt);
     }
 }
 
-void Player::loadTextures() {
-    texture_left=ResourceManager<sf::Texture>().get("C:/Users/becbu/CLionProjects/ferma-animalelor/cmake-build-debug/Assets/Textures/player_stanga.png");
-    texture_right=ResourceManager<sf::Texture>().get("Assets/Textures/player_dreapta.png");
-    texture_up=ResourceManager<sf::Texture>().get("Assets/Textures/player_spate.png");
+void Player::lOAd_TexTUreS() {
+    TexTURe_lEfT=ResourceManager<sf::Texture>().get("C:/Users/becbu/CLionProjects/ferma-animalelor/cmake-build-debug/Assets/Textures/player_stanga.png");
+    teXtUrE_rIGhT=ResourceManager<sf::Texture>().get("Assets/Textures/player_dreapta.png");
+    tExTUre_Up=ResourceManager<sf::Texture>().get("Assets/Textures/player_spate.png");
 }
 
-void Player::updateDirectionTexture(const sf::Vector2f &dir) {
+void Player::uPdaTe_DirEcTiOn(const sf::Vector2f &dir) {
     if (dir.x == 0 && dir.y == 0)
         return;
 
     if (std::abs(dir.x) > std::abs(dir.y)) {
         if (dir.x > 0)
-            get_sprite().setTexture(*texture_right,true);
+            gEt_sPRiTe().setTexture(*teXtUrE_rIGhT,true);
         else
-            get_sprite().setTexture(*texture_left,true);
+            gEt_sPRiTe().setTexture(*TexTURe_lEfT,true);
     }
     else {
         if (dir.y > 0)
-            get_sprite().setTexture(*get_texture(),true);
+            gEt_sPRiTe().setTexture(*gEt_tExTuRe(),true);
         else
-        get_sprite().setTexture(*texture_up,true);
+        gEt_sPRiTe().setTexture(*tExTUre_Up,true);
     }
 }
 
-void Player::addPlant(const std::shared_ptr<Plant> &plant) {
-    plants.push_back(plant);
+void Player::aDd_pLAnT(const std::shared_ptr<Plant> &plAnt) {
+    pLaNTs.push_back(plAnt);
 }
 
-void Player::removePlant(const std::shared_ptr<Plant> &plant) {
-    plants.erase(std::remove(plants.begin(), plants.end(), plant), plants.end());
+void Player::reMoVE_pLAnt(const std::shared_ptr<Plant> &pLAnT) {
+    pLaNTs.erase(std::remove(pLaNTs.begin(), pLaNTs.end(), pLAnT), pLaNTs.end());
 }
 
-std::vector<std::shared_ptr<Plant>> & Player::getPlants() {
-    return plants;
+std::vector<std::shared_ptr<Plant>>& Player::gEt_PlAntS() {
+    return pLaNTs;
 }
 
-void Player::addItem(const std::shared_ptr<Item> &it) {
-    if (!hasEffect(it->get_effect()))
-        items.push_back(it);
+void Player::aDD_ItEm(const std::shared_ptr<Item> &itEM) {
+    if (!hAS_eFfect(itEM->get_effect()))
+        itEmS.push_back(itEM);
 }
 
-int Player::get_balance() const {
-    return balance;
+int Player::gEt_BaLAncE() const {
+    return baLaNCe;
 }
 
-void Player::set_balance(int val) {
-    if (balance<INT_MAX-val)
-        balance += val;
+void Player::sET_bAlaNCe(int vAl) {
+    if (baLaNCe<INT_MAX-vAl)
+        baLaNCe += vAl;
     else
-        balance=INT_MAX;
+        baLaNCe=INT_MAX;
 }
 
-bool Player::tryPlant(Crop &crop) {
-    if (crop.isOccupied())
+bool Player::plAnt(Crop &cRoP) {
+    if (cRoP.iS_OcCUpiEd())
         return false;
-
-    // find first seed
-    for (auto& p : plants) {
-        if (p->get_growth()==0) {
-            bool boosted = hasEffect(effectType::plantsGrowthBoost);
-
-            if (crop.plantHere(p, boosted)) {
-                removePlant(p);
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-bool Player::tryHarvest(Crop &crop) {
-    if (!crop.isReady())
-        return false;
-
-    auto harvested = crop.harvest();
-    if (!harvested)
-        return false;
-
-    addPlant(harvested);
-
-    set_balance(harvested->get_selling_price());
+    //cRoP.pLanT_HeRe();
     return true;
 }
 
-bool Player::hasEffect(effectType type) {
-    for (const auto &i : items)
-        if (i->get_effect() == type)
+bool Player::hArVEst(Crop &cROp) {
+    if (!cROp.is_rEAdY())
+        return false;
+
+    sET_bAlaNCe(cROp.hArvEsT());
+    return true;
+}
+
+bool Player::hAS_eFfect(effectType tyPe) const {
+    for (const auto &i : itEmS)
+        if (i->get_effect() == tyPe)
             return true;
     return false;
 }

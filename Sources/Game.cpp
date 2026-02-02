@@ -1,25 +1,6 @@
-//
-// Created by becbu on 12/5/2025.
-//
-
 #include "../Headers/Game.hpp"
 #include "../Headers/Stats.hpp"
 
-/*
-static bool rectsIntersect(const sf::FloatRect& a, const sf::FloatRect& b)
-{
-    float aLeft = a.position.x;
-    float aTop  = a.position.y;
-    float aRight = a.position.x + a.size.x;
-    float aBottom = a.position.y + a.size.y;
-
-    float bLeft = b.position.x;
-    float bTop  = b.position.y;
-    float bRight = b.position.x + b.size.x;
-    float bBottom = b.position.y + b.size.y;
-
-    return !(aRight <= bLeft || aLeft >= bRight || aBottom <= bTop || aTop >= bBottom);
-}*/
 
 //Metode Private
 void Game::initWindow() {
@@ -37,30 +18,50 @@ player("Assets/Textures/player_fata.png", {940,540},"player",100,0,80.f,{ },{ })
     this->initAnimals();
     this->initCrops();
     this->initBuildings();
-    this->initFonts();
-    this->initUI();
+    //this->initFonts();
+    //this->initUI();
 
 }
 
-void Game::initFonts() {
+/*void Game::initFonts() {
 }
 
 void Game::initUI() {
-}
+}*/
 
 void Game::initAnimals() {
+    animals.push_back(std::make_shared<Animal>("Assets/Textures/cristi_fata.png",sf::Vector2f{100,100}, "Cristi", "miau",
+        std::make_shared<Item>("Assets/Textures/cristi_fata.png", sf::Vector2f{2,3}, "ochelari", effectType::increaseIntelligence)));
+    animals.push_back(std::make_shared<Animal>("Assets/Textures/doug.png",sf::Vector2f{50,900}, "Doug", "ham",
+        std::make_shared<Item>("Assets/Textures/doug.png", sf::Vector2f{2,3}, "fertilizator", effectType::plantsGrowthBoost)));
 }
 
+
 void Game::initBuildings() {
+    buildings.push_back(std::make_shared<Dojo>("Assets/Textures/Dojo.png", sf::Vector2f{1300,300}, "dojo"));
+    buildings.push_back(std::make_shared<Cafe>("Assets/Textures/Cafe.png", sf::Vector2f{200,250}, "cafe"));
+    buildings.push_back(std::make_shared<Library>("Assets/Textures/Library.png", sf::Vector2f{700,570}, "library"));
 }
 
 void Game::initCrops() {
+    crops.push_back(std::make_shared<Crop>("Assets/Textures/crop.png", sf::Vector2f{1000,100}, "crop"));
+    crops.push_back(std::make_shared<Crop>("Assets/Textures/crop.png", sf::Vector2f{1100,100}, "crop"));
+}
+
+void Game::initEntities() {
+    for (auto &a: animals)
+        entities.push_back(a);
+    for (auto &b: buildings)
+        entities.push_back(b);
+    for (auto &c: crops)
+        entities.push_back(c);
 }
 
 void Game::updateInput(float dt) {
-    player.movePlayer(dt);
+    player.mOvE_PlaYEr(dt);
 }
 
+/*
 void Game::updateInteractions() {
 }
 
@@ -72,14 +73,18 @@ void Game::updateMessage(float dt) {
 
 void Game::renderUI() {
 }
+*/
 
 void Game::renderAnimals() {
+    for (auto &a : animals) a->dRaW(*window);
 }
 
 void Game::renderBuildings() {
+    for (auto &b : buildings) b->dRaW(*window);
 }
 
 void Game::renderCrops() {
+    for (auto &c : crops) c->dRaW(*window);
 }
 
 Game::~Game() {
@@ -117,21 +122,20 @@ void Game::render() {
     sf::Text text(font);
     std::ostringstream oss;
     oss << "Stats|Guts:" << std::setw(3) << std::setfill(' ')
-        << std::to_string(player.get_stats().get_guts())
+        << std::to_string(player.gEt_StAts().get_guts())
         << "|Intelligence:" << std::setw(3) << std::setfill(' ')
-        << std::to_string(player.get_stats().get_intelligence())
+        << std::to_string(player.gEt_StAts().get_intelligence())
         << "|Charm:" << std::setw(3) << std::setfill(' ')
-        << std::to_string(player.get_stats().get_charm());
+        << std::to_string(player.gEt_StAts().get_charm());
     text.setString(oss.str());
     text.setCharacterSize(32);
     text.setFillColor(sf::Color::White);
     text.setStyle(sf::Text::Bold);
     window->draw(text);
-    sf::Texture texture1("Assets/cristi_fata.png", false, sf::IntRect({10, 10}, {100, 100}));
-    sf::Sprite sprite1(texture1);
-    sprite1.setPosition({100.f, 100.f}); // absolute position
-    window->draw(sprite1);
-    player.draw(*window);
-    prune.draw(*window);
+    player.dRaW(*window);
+    prune.dRaW(*window);
+    renderBuildings();
+    renderAnimals();
+    renderCrops();
     this->window->display();
 }

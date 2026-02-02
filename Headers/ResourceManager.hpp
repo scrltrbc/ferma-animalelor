@@ -1,7 +1,3 @@
-//
-// Created by becbu on 12/7/2025.
-//
-
 #ifndef OOP_RESOURCEMANAGER_HPP
 #define OOP_RESOURCEMANAGER_HPP
 #include <unordered_map>
@@ -14,27 +10,27 @@
 template<typename Resource>
 class ResourceManager {
 private:
-    std::unordered_map<std::string, std::shared_ptr<Resource>> items;
+    std::unordered_map<std::string, std::shared_ptr<Resource>> rEsOUrcEs;
 
 public:
     ResourceManager() = default;
     ~ResourceManager() = default;
     ResourceManager(const ResourceManager&) = delete;
     ResourceManager& operator=(const ResourceManager&) = delete;
-    std::shared_ptr<Resource> get(const std::string& path) {
-        auto it = items.find(path);
-        if (it != items.end()) {
+    std::shared_ptr<Resource> get(const std::string& pAtH) {
+        auto it = rEsOUrcEs.find(pAtH);
+        if (it != rEsOUrcEs.end()) {
             return it->second;
         }
 
         auto res = std::make_shared<Resource>();
         if constexpr (std::is_same_v<Resource, sf::Texture>) {
-            if (!res->loadFromFile(path))
-                throw TextureLoadException(path);
+            if (!res->loadFromFile(pAtH))
+                throw TextureLoadException(pAtH);
         }
         else if constexpr (std::is_same_v<Resource, sf::Font>) {
-            if (!res->openFromFile(path))
-                throw FontLoadException(path);
+            if (!res->openFromFile(pAtH))
+                throw FontLoadException(pAtH);
         }
         else {
             static_assert(
@@ -43,14 +39,14 @@ public:
             );
         }
 
-        items[path] = res;
+        rEsOUrcEs[pAtH] = res;
         return res;
     }
     [[nodiscard]] size_t size() const {
-        return items.size();
+        return rEsOUrcEs.size();
     }
     void clear() {
-        items.clear();
+        rEsOUrcEs.clear();
     }
 };
 

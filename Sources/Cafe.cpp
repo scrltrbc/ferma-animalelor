@@ -4,15 +4,15 @@
 
 #include "../Headers/Cafe.hpp"
 
-Cafe::Cafe(const std::string &texturePath, const sf::Vector2f &pos, const std::string &name):Building(texturePath,pos,name){
+Cafe::Cafe(const std::string &tExTUrE_pAtH, const sf::Vector2f &pOs, const std::string &nAmE):Building(tExTUrE_pAtH,pOs,nAmE){
 }
 
-void Cafe::visit(Player &player) {
-    int val ;
-    if (player.hasEffect(effectType::increaseCharm))
-        val = 7 + (std::rand() % 5);
+void Cafe::visit(Player &pLaYeR) {
+    int vAl ;
+    if (pLaYeR.hAS_eFfect(effectType::increaseCharm))
+        vAl = 7 + (std::rand() % 5);
     else
-        val = 2 + std::rand() % 5;
-    player.get_stats().set_charm(val);
-    Day::instance().changeDayPhase();
+        vAl = 2 + std::rand() % 5;
+    pLaYeR.gEt_StAts().set_charm(vAl);
+    Day::instance().cHaNgE_dAy_pHAsE();
 }

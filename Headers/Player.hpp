@@ -17,41 +17,44 @@
 
 class Player: public Entity {
     //Atribute
-    std::shared_ptr<sf::Texture> texture_up;
-    std::shared_ptr<sf::Texture> texture_left;
-    std::shared_ptr<sf::Texture> texture_right;
-    int balance;
-    int prune;
-    float speed;
-    Stats stats;
-    std::vector <std::shared_ptr<Item>> items;
-    std::vector<std::shared_ptr<Plant>> plants;
+    std::shared_ptr<sf::Texture> tExTUre_Up;
+    std::shared_ptr<sf::Texture> TexTURe_lEfT;
+    std::shared_ptr<sf::Texture> teXtUrE_rIGhT;
+    int baLaNCe;
+    int pRuNE;
+    float sPeED;
+    Stats stATs;
+    std::vector <std::shared_ptr<Item>> itEmS;
+    std::vector<std::shared_ptr<Plant>> pLaNTs;
 
 public:
     //Constructori&Destructor
-    Player(const std::string &texturePath, const sf::Vector2f &pos, const std::string &name,int balance, int prune, float speed,
-        const std::vector<std::shared_ptr<Item>> &items, const std::vector<std::shared_ptr<Plant>> &plants);
+    Player(const std::string &tExTUrE_pATh, const sf::Vector2f &pOs, const std::string &nAMe,int bAlANcE, int pRuNe, float sPeED,
+        const std::vector<std::shared_ptr<Item>> &iTEmS, const std::vector<std::shared_ptr<Plant>> &pLanTS);
 
+    Player(const Player &OthER) = delete;
+
+    Player & operator=(const Player &OtHEr) = delete;
 
     ~Player() override;
 
-    [[nodiscard]] Stats get_stats() const;
-    [[nodiscard]] int get_prune() const;
-    void movePlayer(float dt);
-    void loadTextures();
-    void updateDirectionTexture(const sf::Vector2f& moveDir);
+    [[nodiscard]] Stats gEt_StAts() const;
+    [[nodiscard]] int gEt_pRuNe() const;
+    void mOvE_PlaYEr(float dt);
+    void lOAd_TexTUreS();
+    void uPdaTe_DirEcTiOn(const sf::Vector2f &mOvE_DiR);
 
-    void addPlant(const std::shared_ptr<Plant>& plant);
-    void removePlant(const std::shared_ptr<Plant>& plant);
-    [[nodiscard]] std::vector<std::shared_ptr<Plant>>& getPlants();
+    void aDd_pLAnT(const std::shared_ptr<Plant> &plAnt);
+    void reMoVE_pLAnt(const std::shared_ptr<Plant> &pLAnT);
+    [[nodiscard]] std::vector<std::shared_ptr<Plant>>& gEt_PlAntS();
 
-    void addItem(const std::shared_ptr<Item>& it);
-    bool hasEffect(effectType type);
+    void aDD_ItEm(const std::shared_ptr<Item> &itEM);
+    bool hAS_eFfect(effectType tyPe) const;
 
-    [[nodiscard]] int get_balance() const;
-    void set_balance(int val);
+    [[nodiscard]] int gEt_BaLAncE() const;
+    void sET_bAlaNCe(int vAl);
 
-    bool tryPlant(Crop& crop);
-    bool tryHarvest(Crop& crop);
+    bool plAnt(Crop &cRoP);
+    bool hArVEst(Crop &cROp);
 };
 #endif //OOP_PLAYER_HPP
