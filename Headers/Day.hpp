@@ -16,6 +16,8 @@ class Day {
     Day();
 
 public:
+
+    ~Day();
     static Day &instance();
 
     [[nodiscard]] int gET_DaY() const;

@@ -10,13 +10,13 @@ int Player::gEt_pRuNe() const {
 }
 
 Player::Player(const std::string &tExTUrE_pATh, const sf::Vector2f &pOs, const std::string &nAMe, int bAlANcE, int pRuNe, float sPeED,
-               const std::vector<std::shared_ptr<Item>> &iTEmS, const std::vector<std::shared_ptr<Plant>> &pLanTS)
+               const std::vector<std::shared_ptr<Item>> &iTEmS, const std::vector<std::shared_ptr<Seed>> &sEeDs)
     : Entity(tExTUrE_pATh, pOs, nAMe),
           baLaNCe(bAlANcE),
           pRuNE(pRuNe),
           sPeED(sPeED),
           itEmS(iTEmS),
-          pLaNTs(pLanTS) { lOAd_TexTUreS();}
+          sEeDs(sEeDs) { lOAd_TexTUreS();}
 
 Player::~Player()=default;
 
@@ -61,17 +61,13 @@ void Player::uPdaTe_DirEcTiOn(const sf::Vector2f &dir) {
     }
 }
 
-void Player::aDd_pLAnT(const std::shared_ptr<Plant> &plAnt) {
-    pLaNTs.push_back(plAnt);
-}
+/*void Player::aDd_pLAnT(const std::shared_ptr<Seed> &plAnt) {
+    sEeDs.push_back(plAnt);
+}*/
 
-void Player::reMoVE_pLAnt(const std::shared_ptr<Plant> &pLAnT) {
-    pLaNTs.erase(std::remove(pLaNTs.begin(), pLaNTs.end(), pLAnT), pLaNTs.end());
-}
-
-std::vector<std::shared_ptr<Plant>>& Player::gEt_PlAntS() {
-    return pLaNTs;
-}
+/*void Player::reMoVE_pLAnt(const std::shared_ptr<Plant> &pLAnT) {
+    sEeDs.erase(std::remove(sEeDs.begin(), sEeDs.end(), pLAnT), sEeDs.end());
+}*/
 
 void Player::aDD_ItEm(const std::shared_ptr<Item> &itEM) {
     if (!hAS_eFfect(itEM->get_effect()))
@@ -92,7 +88,8 @@ void Player::sET_bAlaNCe(int vAl) {
 bool Player::plAnt(Crop &cRoP) {
     if (cRoP.iS_OcCUpiEd())
         return false;
-    //cRoP.pLanT_HeRe();
+    cRoP.pLanT_HeRe(sEeDs[0], hAS_eFfect(effectType::plantsGrowthBoost));
+    sEeDs.erase(sEeDs.begin());
     return true;
 }
 
@@ -109,4 +106,14 @@ bool Player::hAS_eFfect(effectType tyPe) const {
         if (i->get_effect() == tyPe)
             return true;
     return false;
+}
+
+bool Player::cOnFiRM_inTErACtIon() {
+    return sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E);
+}
+
+bool Player::cHeCk_disTAnCe(const Entity &oThEr) const {
+    sf::Vector2f d = oThEr.gET_PoSitIoN()-gET_PoSitIoN();
+    return (d.x*d.x + d.y*d.y) <= (iNtErACT_ofFseT * iNtErACT_ofFseT);
+
 }

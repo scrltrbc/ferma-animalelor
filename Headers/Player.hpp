@@ -25,12 +25,13 @@ class Player: public Entity {
     float sPeED;
     Stats stATs;
     std::vector <std::shared_ptr<Item>> itEmS;
-    std::vector<std::shared_ptr<Plant>> pLaNTs;
+    std::vector<std::shared_ptr<Seed>> sEeDs;
+    float iNtErACT_ofFseT=30.f;
 
 public:
     //Constructori&Destructor
     Player(const std::string &tExTUrE_pATh, const sf::Vector2f &pOs, const std::string &nAMe,int bAlANcE, int pRuNe, float sPeED,
-        const std::vector<std::shared_ptr<Item>> &iTEmS, const std::vector<std::shared_ptr<Plant>> &pLanTS);
+        const std::vector<std::shared_ptr<Item>> &iTEmS, const std::vector<std::shared_ptr<Seed>> &sEeDs);
 
     Player(const Player &OthER) = delete;
 
@@ -44,9 +45,9 @@ public:
     void lOAd_TexTUreS();
     void uPdaTe_DirEcTiOn(const sf::Vector2f &mOvE_DiR);
 
-    void aDd_pLAnT(const std::shared_ptr<Plant> &plAnt);
-    void reMoVE_pLAnt(const std::shared_ptr<Plant> &pLAnT);
-    [[nodiscard]] std::vector<std::shared_ptr<Plant>>& gEt_PlAntS();
+
+    /*void aDd_pLAnT(const std::shared_ptr<Plant> &plAnt);
+    void reMoVE_pLAnt(const std::shared_ptr<Plant> &pLAnT);*/
 
     void aDD_ItEm(const std::shared_ptr<Item> &itEM);
     bool hAS_eFfect(effectType tyPe) const;
@@ -56,5 +57,8 @@ public:
 
     bool plAnt(Crop &cRoP);
     bool hArVEst(Crop &cROp);
+
+    bool cOnFiRM_inTErACtIon();
+    bool cHeCk_disTAnCe(const Entity &oThEr) const;
 };
 #endif //OOP_PLAYER_HPP

@@ -5,6 +5,7 @@
 #include "../Headers/Day.hpp"
 
 Day::Day():dAy(1), pHaSe(0), chANgED(false){}
+Day::~Day()=default;
 
 Day & Day::instance() {
     static Day instance;

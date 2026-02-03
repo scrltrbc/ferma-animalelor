@@ -18,6 +18,7 @@
 
 class Game {
     //Atribute
+    static Game* instance;
     sf::Clock dtClock;
     sf::RenderWindow* window;
     ResourceManager<sf::Texture> textures;
@@ -36,9 +37,9 @@ class Game {
     void initBuildings();
     void initCrops();
     void initEntities();
-
+    Game();
     void updateInput(float dt);
-    //void updateInteractions();
+    bool updateInteractions();
     //void updatePlants(float dt);
     //void updateMessage(float dt);
 
@@ -50,9 +51,10 @@ class Game {
 public:
 
     //Constructori&Destructor
-    Game();
     ~Game();
-
+    Game(const Game&)=delete;
+    Game& operator=(const Game&)=delete;
+    static Game* getInstance();
     //Getters&Setters
     [[nodiscard]] bool isRunning() const;
 

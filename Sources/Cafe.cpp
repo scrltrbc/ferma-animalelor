@@ -1,6 +1,4 @@
-//
-// Created by becbu on 12/8/2025.
-//
+
 
 #include "../Headers/Cafe.hpp"
 

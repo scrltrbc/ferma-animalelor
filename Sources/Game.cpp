@@ -1,26 +1,9 @@
 #include "../Headers/Game.hpp"
 #include "../Headers/Stats.hpp"
 
-
 //Metode Private
 void Game::initWindow() {
     this->window= new sf::RenderWindow(sf::VideoMode({1920u,1080u}),"Ferma Animalelor");
-}
-
-
-//Constructori & Destructori
-Game::Game():
-prune("Assets/Textures/pruna.png",{0,40},"prune"),
-player("Assets/Textures/player_fata.png", {940,540},"player",100,0,80.f,{ },{ })
-{
-    this->window = nullptr;
-    this->initWindow();
-    this->initAnimals();
-    this->initCrops();
-    this->initBuildings();
-    //this->initFonts();
-    //this->initUI();
-
 }
 
 /*void Game::initFonts() {
@@ -49,22 +32,69 @@ void Game::initCrops() {
 }
 
 void Game::initEntities() {
-    for (auto &a: animals)
+    for (const auto &a: animals)
         entities.push_back(a);
-    for (auto &b: buildings)
+    for (const auto &b: buildings)
         entities.push_back(b);
-    for (auto &c: crops)
+    for (const auto &c: crops)
         entities.push_back(c);
+}
+
+Game::Game():
+prune("Assets/Textures/pruna.png",{0,40},"prune"),
+player("Assets/Textures/player_fata.png", {940,540},"player",100,0,80.f,{ },{ })
+{
+    this->window = nullptr;
+    this->initWindow();
+    this->initAnimals();
+    this->initCrops();
+    this->initBuildings();
+    //this->initFonts();
+    //this->initUI();
+
+}
+
+Game * Game::getInstance() {
+    if (instance==nullptr)
+        instance=new Game();
+    return instance;
 }
 
 void Game::updateInput(float dt) {
     player.mOvE_PlaYEr(dt);
 }
 
-/*
-void Game::updateInteractions() {
+
+bool Game::updateInteractions() {
+    if (!player.cOnFiRM_inTErACtIon())
+        return false;
+    for (auto const& e : entities) {
+        if (player.cHeCk_disTAnCe(*e))
+            continue;
+        if (auto *animal=dynamic_cast<Animal*>(e.get())) {
+            animal->sAy_StUFf();
+            animal->gIvE_RaNDom_iTeM();
+            break;
+        }
+        if (auto *crop=dynamic_cast<Crop*>(e.get())) {
+            if (player.plAnt(*crop))
+                player.hArVEst(*crop);
+            break;
+        }
+        if (auto* building = dynamic_cast<Building*>(e.get())) {
+            if (auto *dojo=dynamic_cast<Dojo*>(building))
+                dojo->visit(player);
+            else if (auto *cafe=dynamic_cast<Cafe*>(building))
+                cafe->visit(player);
+            else if (auto *library=dynamic_cast<Library*>(building))
+                library->visit(player);
+            break;
+        }
+    }
+    return true;
 }
 
+/*
 void Game::updatePlants(float dt) {
 }
 
@@ -84,7 +114,7 @@ void Game::renderBuildings() {
 }
 
 void Game::renderCrops() {
-    for (auto &c : crops) c->dRaW(*window);
+    for (auto const& c : crops) c->dRaW(*window);
 }
 
 Game::~Game() {
@@ -111,10 +141,11 @@ void Game::update() {
                 window->close();
 
         }
+
     }
 
     updateInput(dt);
-
+    updateInteractions();
 }
 void Game::render() {
     this->window->clear(sf::Color::Black);
@@ -132,10 +163,18 @@ void Game::render() {
     text.setFillColor(sf::Color::White);
     text.setStyle(sf::Text::Bold);
     window->draw(text);
+    sf::Text text1(font);
+    text1.setString(Day::instance().DaY_phAsE_tEXt());
+    text1.setCharacterSize(20);
+    text1.setFillColor(sf::Color::White);
+    text1.setStyle(sf::Text::Bold);
+    text1.setPosition({10, 1050});
+    window->draw(text1);
     player.dRaW(*window);
     prune.dRaW(*window);
     renderBuildings();
     renderAnimals();
     renderCrops();
     this->window->display();
+
 }
