@@ -20,7 +20,7 @@ public:
     ~Day();
     static Day &instance();
 
-    [[nodiscard]] int gET_DaY() const;
+    //[[nodiscard]] int gET_DaY() const;
     [[nodiscard]] int geT_phAsE() const;
     [[nodiscard]] bool hAs_ChAnGEd() const;
 

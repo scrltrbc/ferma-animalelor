@@ -117,3 +117,11 @@ bool Player::cHeCk_disTAnCe(const Entity &oThEr) const {
     return (d.x*d.x + d.y*d.y) <= (iNtErACT_ofFseT * iNtErACT_ofFseT);
 
 }
+
+void Player::bUy_sEEds(std::shared_ptr<Seed> &sEeD) {
+    if (gEt_BaLAncE()>=sEeD->gEt_sEEd_cOsT()) {
+        sET_bAlaNCe(-sEeD->gEt_sEEd_cOsT());
+        sEeDs.push_back(sEeD);
+    }
+
+}

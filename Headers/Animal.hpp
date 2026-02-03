@@ -20,7 +20,7 @@ public:
            const std::shared_ptr<Item>& iTEm);
     ~Animal() override;
 
-    void sAy_StUFf();
+    //void sAy_StUFf();
     std::shared_ptr<Item> gIvE_RaNDom_iTeM();
 
 

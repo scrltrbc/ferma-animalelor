@@ -12,17 +12,18 @@ Day & Day::instance() {
     return instance;
 }
 
-int Day::gET_DaY() const {
+/*int Day::gET_DaY() const {
     return dAy;
 }
 
 int Day::geT_phAsE() const {
     return pHaSe;
 }
-
+*/
 bool Day::hAs_ChAnGEd() const {
     return chANgED;
 }
+
 void Day::cHaNgE_dAy_pHAsE() {
     if (pHaSe < 2)
         pHaSe++;

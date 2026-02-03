@@ -13,6 +13,7 @@
 #include "Day.hpp"
 #include "Cafe.hpp"
 #include "Library.hpp"
+#include "Exceptions.hpp"
 
 
 
@@ -40,7 +41,7 @@ class Game {
     Game();
     void updateInput(float dt);
     bool updateInteractions();
-    //void updatePlants(float dt);
+    void updateDay();
     //void updateMessage(float dt);
 
     //void renderUI();
@@ -61,6 +62,7 @@ public:
     //Metode Publice
     void update();
     void render();
+    void afis();
 
 };
 #endif //OOP_GAME_HPP

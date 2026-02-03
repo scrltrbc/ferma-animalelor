@@ -16,9 +16,9 @@ Animal::Animal(const std::string &teXtUre_PAth,
 
 Animal::~Animal()=default;
 
-void Animal::sAy_StUFf() {
+/*void Animal::sAy_StUFf() {
 
-}
+}*/
 
 std::shared_ptr<Item> Animal::gIvE_RaNDom_iTeM() {
     return iTem;

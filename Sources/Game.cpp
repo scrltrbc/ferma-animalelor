@@ -72,7 +72,7 @@ bool Game::updateInteractions() {
         if (player.cHeCk_disTAnCe(*e))
             continue;
         if (auto *animal=dynamic_cast<Animal*>(e.get())) {
-            animal->sAy_StUFf();
+            //animal->sAy_StUFf();
             animal->gIvE_RaNDom_iTeM();
             break;
         }
@@ -94,10 +94,19 @@ bool Game::updateInteractions() {
     return true;
 }
 
-/*
-void Game::updatePlants(float dt) {
-}
 
+void Game::updateDay() {
+    if (Day::instance().hAs_ChAnGEd()) {
+        for (const auto& c : crops)
+            c->grOw_pLAnT();
+        if (Day::instance().iS_sUnDAy())
+            prune.set_buying_price();
+        else
+            prune.set_selling_price();
+        Day::instance().rEsET_cHangEd();
+    }
+}
+/*
 void Game::updateMessage(float dt) {
 }
 
@@ -145,6 +154,7 @@ void Game::update() {
     }
 
     updateInput(dt);
+    updateDay();
     updateInteractions();
 }
 void Game::render() {
@@ -176,5 +186,8 @@ void Game::render() {
     renderAnimals();
     renderCrops();
     this->window->display();
-
+}
+void Game::afis() {
+    std::cout<<prune.get_price();
+    player.aDD_ItEm(animals.begin()->get()->gIvE_RaNDom_iTeM());
 }

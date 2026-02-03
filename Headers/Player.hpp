@@ -54,7 +54,7 @@ public:
 
     [[nodiscard]] int gEt_BaLAncE() const;
     void sET_bAlaNCe(int vAl);
-
+    void bUy_sEEds(std::shared_ptr<Seed> &sEeD);
     bool plAnt(Crop &cRoP);
     bool hArVEst(Crop &cROp);
 
